@@ -8,14 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 
 const events = [
-  { date: new Date(2024, 6, 15), title: "Audiencia Pública: Presupuesto 2025", time: "10:00 - 12:00", location: "Salón de Plenos" },
-  { date: new Date(2024, 6, 22), title: "Sesión Informativa: Nuevo Plan de Movilidad", time: "18:00 - 19:30", location: "Centro Cívico Norte" },
-  { date: new Date(2024, 6, 22), title: "Acto de Rendición de Cuentas (Semestral)", time: "11:00 - 13:00", location: "Teatro Principal" },
-  { date: new Date(2024, 7, 5), title: "Taller de Participación Ciudadana", time: "17:00 - 19:00", location: "Online (Zoom)" },
+  { date: new Date(2025, 7, 18), title: "Audiencia Pública: Presupuesto 2026", time: "10:00 - 12:00", location: "Salón de Plenos" },
+  { date: new Date(2025, 7, 25), title: "Sesión Informativa: Nuevo Plan de Movilidad Sostenible", time: "18:00 - 19:30", location: "Centro Cívico Norte" },
+  { date: new Date(2025, 8, 8), title: "Acto de Rendición de Cuentas (Tercer Trimestre)", time: "11:00 - 13:00", location: "Teatro Principal" },
+  { date: new Date(2025, 8, 22), title: "Taller de Participación Ciudadana: Proyectos Verdes", time: "17:00 - 19:00", location: "Online (Zoom)" },
 ];
 
 export default function MemoriaInstitucionalPage() {
-  const [date, setDate] = useState<Date | undefined>(new Date(2024, 6, 22));
+  const [date, setDate] = useState<Date | undefined>(new Date(2025, 7, 18));
 
   const selectedDayEvents = events.filter(event => date && isSameDay(event.date, date));
 
@@ -35,7 +35,7 @@ export default function MemoriaInstitucionalPage() {
                 className="p-3"
                 locale={es}
                 initialFocus
-                defaultMonth={new Date(2024, 6)}
+                defaultMonth={new Date(2025, 7)}
                 modifiers={{
                     hasEvent: events.map(e => e.date)
                 }}

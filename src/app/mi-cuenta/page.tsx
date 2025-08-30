@@ -206,15 +206,15 @@ export default function MiCuentaPage() {
                         <ul className="space-y-3">
                             <li className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                                 <div>
-                                    <p className="font-medium">Reporte_Gestion_Q2_2024.pdf</p>
-                                    <p className="text-sm text-muted-foreground">Subido: 15 de Junio, 2024</p>
+                                    <p className="font-medium">Reporte_Gestion_Q3_2025.pdf</p>
+                                    <p className="text-sm text-muted-foreground">Subido: 30 de Septiembre, 2025</p>
                                 </div>
                                 <Button variant="ghost" size="icon" className="text-destructive"><Edit className="h-4 w-4"/></Button>
                             </li>
                              <li className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                                 <div>
-                                    <p className="font-medium">Plan_Operativo_Anual_2024.docx</p>
-                                    <p className="text-sm text-muted-foreground">Subido: 1 de Febrero, 2024</p>
+                                    <p className="font-medium">Plan_Operativo_Anual_2026_Prop.docx</p>
+                                    <p className="text-sm text-muted-foreground">Subido: 15 de Agosto, 2025</p>
                                 </div>
                                 <Button variant="ghost" size="icon" className="text-destructive"><Edit className="h-4 w-4"/></Button>
                             </li>

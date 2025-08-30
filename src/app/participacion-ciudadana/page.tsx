@@ -44,23 +44,23 @@ export default function ComunicacionEticaPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <Card>
           <CardHeader>
-            <CardTitle>Consulta Activa: Movilidad Urbana</CardTitle>
-            <CardDescription>¿Cuál considera que es la principal prioridad para mejorar el transporte en la ciudad?</CardDescription>
+            <CardTitle>Consulta Activa: Espacios Públicos (Sep 2025)</CardTitle>
+            <CardDescription>¿Cuál considera que es la principal prioridad para los nuevos parques en la ciudad?</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSurveySubmit} className="space-y-6">
               <RadioGroup defaultValue="option-one" className="space-y-2">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="option-one" id="option-one" />
-                  <Label htmlFor="option-one">Ampliar la red de carriles bici</Label>
+                  <Label htmlFor="option-one">Más áreas verdes y jardines</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="option-two" id="option-two" />
-                  <Label htmlFor="option-two">Mejorar la frecuencia del transporte público</Label>
+                  <Label htmlFor="option-two">Zonas de juegos infantiles modernos</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="option-three" id="option-three" />
-                  <Label htmlFor="option-three">Crear más zonas peatonales</Label>
+                  <Label htmlFor="option-three">Instalaciones deportivas de acceso libre</Label>
                 </div>
               </RadioGroup>
               <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">Enviar Voto</Button>
@@ -86,26 +86,26 @@ export default function ComunicacionEticaPage() {
       <Card>
         <CardHeader>
           <CardTitle>Resultados de Consultas Anteriores</CardTitle>
-          <CardDescription>Consulta sobre el "Nuevo Parque Central"</CardDescription>
+          <CardDescription>Consulta sobre "Movilidad Urbana" (Agosto 2025)</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
             <div>
                 <div className="flex justify-between mb-1 text-sm">
-                    <Label>Diseño A: "Oasis Urbano"</Label>
-                    <span className="font-medium text-primary">65%</span>
+                    <Label>Mejorar frecuencia del transporte público</Label>
+                    <span className="font-medium text-primary">58%</span>
                 </div>
-                <Progress value={65} className="h-3" />
+                <Progress value={58} className="h-3" />
             </div>
             <div>
                 <div className="flex justify-between mb-1 text-sm">
-                    <Label>Diseño B: "Plaza Moderna"</Label>
-                    <span className="font-medium text-primary">25%</span>
+                    <Label>Ampliar la red de carriles bici</Label>
+                    <span className="font-medium text-primary">32%</span>
                 </div>
-                <Progress value={25} className="h-3" />
+                <Progress value={32} className="h-3" />
             </div>
             <div>
                 <div className="flex justify-between mb-1 text-sm">
-                    <Label>Diseño C: "Jardín Tradicional"</Label>
+                    <Label>Crear más zonas peatonales</Label>
                     <span className="font-medium text-primary">10%</span>
                 </div>
                 <Progress value={10} className="h-3" />

@@ -8,12 +8,12 @@ import { Download, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const documents = [
-  { id: 'ACTA-001', name: 'Acta de Sesión Plenaria', version: '1.0', date: '2024-05-15', type: 'Acta' },
-  { id: 'LINT-005', name: 'Lineamientos Técnicos de Construcción', version: '2.3', date: '2024-05-12', type: 'Lineamiento' },
-  { id: 'ACTA-001', name: 'Acta de Sesión Plenaria', version: '1.1', date: '2024-05-20', type: 'Acta' },
-  { id: 'MINU-042', name: 'Minuta de Comisión de Hacienda', version: '1.0', date: '2024-05-18', type: 'Minuta' },
-  { id: 'HIST-001', name: 'Historial de Modificaciones Presupuestarias', version: '3.0', date: '2024-05-01', type: 'Historial' },
-  { id: 'LINT-005', name: 'Lineamientos Técnicos de Construcción', version: '2.4', date: '2024-06-01', type: 'Lineamiento' },
+  { id: 'ACTA-08-25', name: 'Acta de Sesión Plenaria Agosto', version: '1.0', date: '2025-08-15', type: 'Acta' },
+  { id: 'LINT-006', name: 'Lineamientos Técnicos de Obra Pública', version: '3.0', date: '2025-08-20', type: 'Lineamiento' },
+  { id: 'ACTA-09-25', name: 'Acta de Sesión Plenaria Septiembre', version: '1.0', date: '2025-09-16', type: 'Acta' },
+  { id: 'MINU-08-25', name: 'Minuta de Comisión de Hacienda Agosto', version: '1.0', date: '2025-08-28', type: 'Minuta' },
+  { id: 'HIST-002', name: 'Historial de Modificaciones Presupuestarias Q3', version: '1.0', date: '2025-09-30', type: 'Historial' },
+  { id: 'LINT-007', name: 'Lineamientos de Transparencia Focalizada', version: '1.0', date: '2025-09-05', type: 'Lineamiento' },
 ];
 
 export default function DocumentacionModularPage() {

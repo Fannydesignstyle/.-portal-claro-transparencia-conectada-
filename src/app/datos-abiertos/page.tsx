@@ -7,20 +7,20 @@ import { Button } from "@/components/ui/button";
 import { FileDown } from "lucide-react";
 
 const budgetAllocationData = [
-  { area: "Educación", budget: 500 },
-  { area: "Salud", budget: 850 },
-  { area: "Seguridad", budget: 620 },
-  { area: "Infraestructura", budget: 1200 },
-  { area: "Cultura", budget: 300 },
+  { area: "Educación", budget: 520 },
+  { area: "Salud", budget: 870 },
+  { area: "Seguridad", budget: 650 },
+  { area: "Infraestructura", budget: 1250 },
+  { area: "Cultura", budget: 310 },
 ];
 
 const spendingOverTimeData = [
-  { month: "Enero", spending: 210 },
-  { month: "Febrero", spending: 250 },
-  { month: "Marzo", spending: 290 },
-  { month: "Abril", spending: 340 },
-  { month: "Mayo", spending: 400 },
-  { month: "Junio", spending: 420 },
+  { month: "Abr", spending: 1100 },
+  { month: "May", spending: 1300 },
+  { month: "Jun", spending: 1550 },
+  { month: "Jul", spending: 1700 },
+  { month: "Ago", spending: 1950 },
+  { month: "Sep", spending: 2200 },
 ];
 
 const chartConfig: ChartConfig = {
@@ -35,10 +35,10 @@ const chartConfig: ChartConfig = {
 };
 
 const datasets = [
-    { name: "Presupuesto Anual 2024", format: "CSV", size: "1.2 MB" },
-    { name: "Contratos Públicos 2023", format: "JSON", size: "5.8 MB" },
-    { name: "Subsidios Otorgados Q1 2024", format: "XLSX", size: "850 KB" },
-    { name: "Estadísticas Demográficas", format: "CSV", size: "12.3 MB" },
+    { name: "Presupuesto Anual 2025", format: "CSV", size: "1.3 MB" },
+    { name: "Contratos Públicos 2025 (Ene-Sep)", format: "JSON", size: "7.2 MB" },
+    { name: "Subsidios Otorgados Q3 2025", format: "XLSX", size: "950 KB" },
+    { name: "Estadísticas Demográficas 2025", format: "CSV", size: "12.8 MB" },
 ];
 
 export default function TransparenciaActivaPage() {
@@ -53,7 +53,7 @@ export default function TransparenciaActivaPage() {
         <Card>
           <CardHeader>
             <CardTitle>Asignación Presupuestaria por Área</CardTitle>
-            <CardDescription>Millones de euros asignados para el año fiscal actual</CardDescription>
+            <CardDescription>Millones de pesos asignados para el año fiscal 2025</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
@@ -71,7 +71,7 @@ export default function TransparenciaActivaPage() {
         <Card>
           <CardHeader>
             <CardTitle>Evolución del Gasto Público</CardTitle>
-            <CardDescription>Gasto mensual acumulado durante el primer semestre</CardDescription>
+            <CardDescription>Gasto mensual acumulado durante el año fiscal 2025</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[300px] w-full">
