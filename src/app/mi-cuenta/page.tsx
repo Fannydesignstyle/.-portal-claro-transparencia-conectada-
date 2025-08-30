@@ -6,19 +6,25 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save, RefreshCw } from "lucide-react";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
 import { ProfileContext, type Profile } from "@/context/ProfileContext";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function MiCuentaPage() {
     const { toast } = useToast();
-    const [isEditing, setIsEditing] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [qrKey, setQrKey] = useState(Date.now());
     
     const { profile, setProfile } = useContext(ProfileContext);
     const [localProfile, setLocalProfile] = useState<Profile>(profile);
+
+    // State for login form
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         setLocalProfile(profile);
@@ -28,12 +34,33 @@ export default function MiCuentaPage() {
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        toast({
-            title: "Inicio de Sesión Exitoso",
-            description: "Bienvenida de nuevo, Estefanía.",
-        });
-        setIsEditing(true);
+        setError('');
+
+        // These would be your actual environment variables
+        const adminUser = process.env.NEXT_PUBLIC_ADMIN_USERNAME || "admin";
+        const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "password";
+
+        if (username === adminUser && password === adminPass) {
+            toast({
+                title: "Inicio de Sesión Exitoso",
+                description: `Bienvenida de nuevo, ${profile.name}.`,
+            });
+            setIsLoggedIn(true);
+        } else {
+            setError("Usuario o contraseña incorrectos. Intente de nuevo.");
+        }
     };
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+        setUsername('');
+        setPassword('');
+        setError('');
+         toast({
+            title: "Sesión Cerrada",
+            description: "Ha cerrado sesión de forma segura.",
+        });
+    }
 
     const handleProfileSave = () => {
         setProfile(localProfile);
@@ -88,7 +115,7 @@ export default function MiCuentaPage() {
         }, 1000);
     };
 
-  if (!isEditing) {
+  if (!isLoggedIn) {
     return (
         <div className="flex justify-center items-center py-12">
             <Card className="w-full max-w-md">
@@ -100,12 +127,30 @@ export default function MiCuentaPage() {
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="username">Usuario</Label>
-                            <Input id="username" placeholder="Su usuario institucional" required defaultValue="estefania.perez" />
+                            <Input id="username" placeholder="Su usuario institucional" required value={username} onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password">Contraseña</Label>
-                            <Input id="password" type="password" required defaultValue="password" />
+                            <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
+                         {error && (
+                            <Alert variant="destructive">
+                                <AlertTriangle className="h-4 w-4" />
+                                <AlertTitle>Error de Acceso</AlertTitle>
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
+                        {(!process.env.NEXT_PUBLIC_ADMIN_USERNAME || !process.env.NEXT_PUBLIC_ADMIN_PASSWORD) && (
+                             <Alert variant="default" className="border-yellow-500/50 text-yellow-700 [&>svg]:text-yellow-700">
+                                <AlertTriangle className="h-4 w-4" />
+                                <AlertTitle>Modo de Demostración</AlertTitle>
+                                <AlertDescription>
+                                    Usando credenciales por defecto: <br/>
+                                    Usuario: <b>admin</b>, Contraseña: <b>password</b>. <br/>
+                                    Cree un archivo `.env.local` para usar credenciales reales.
+                                </AlertDescription>
+                            </Alert>
+                        )}
                         <Button type="submit" className="w-full">
                             <Lock className="mr-2"/>
                             Iniciar Sesión
@@ -124,7 +169,7 @@ export default function MiCuentaPage() {
                 <h1 className="text-3xl font-bold text-primary">Panel Administrativo</h1>
                 <p className="text-muted-foreground">Gestione su perfil, documentos y reportes.</p>
             </div>
-            <Button onClick={() => setIsEditing(false)}>Cerrar Sesión</Button>
+            <Button onClick={handleLogout}>Cerrar Sesión</Button>
         </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
