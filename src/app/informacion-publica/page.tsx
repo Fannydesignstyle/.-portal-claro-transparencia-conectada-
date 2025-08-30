@@ -8,21 +8,24 @@ import { Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const contracts = [
-  { id: 'C001', name: 'Suministro de material de oficina', department: 'Administración', date: '2024-05-20', amount: '€15,000' },
-  { id: 'C002', name: 'Servicio de limpieza', department: 'Servicios Generales', date: '2024-05-18', amount: '€50,000' },
-  { id: 'C003', name: 'Desarrollo de software', department: 'Tecnología', date: '2024-05-15', amount: '€120,000' },
+  { id: 'C25-008', name: 'Mantenimiento de Infraestructura Vial', department: 'Secretaría de las Infraestructuras', date: '2025-08-10', amount: '€2,500,000' },
+  { id: 'C25-009', name: 'Adquisición de Insumos Médicos', department: 'Servicios de Salud de Oaxaca', date: '2025-08-22', amount: '€1,800,000' },
+  { id: 'C25-010', name: 'Consultoría para Plan de Desarrollo Turístico', department: 'Secretaría de Turismo', date: '2025-09-05', amount: '€350,000' },
+  { id: 'C25-011', name: 'Programa de Becas Escolares 2025', department: 'Instituto Estatal de Educación Pública', date: '2025-09-15', amount: '€5,000,000' },
 ];
 
 const budgets = [
-  { department: 'Educación', assigned: '€5,000,000', spent: '€2,100,000', remaining: '€2,900,000' },
-  { department: 'Salud', assigned: '€8,500,000', spent: '€4,500,000', remaining: '€4,000,000' },
-  { department: 'Obras Públicas', assigned: '€12,000,000', spent: '€7,250,000', remaining: '€4,750,000' },
+  { department: 'Secretaría de las Infraestructuras', assigned: '€30,000,000', spent: '€18,500,000', remaining: '€11,500,000' },
+  { department: 'Servicios de Salud de Oaxaca', assigned: '€25,000,000', spent: '€15,200,000', remaining: '€9,800,000' },
+  { department: 'Secretaría de Finanzas', assigned: '€15,000,000', spent: '€9,750,000', remaining: '€5,250,000' },
+  { department: 'Secretaría de Seguridad y Protección', assigned: '€22,000,000', spent: '€14,800,000', remaining: '€7,200,000' },
 ];
 
 const regulations = [
-    { id: 'N001', name: 'Ley de Transparencia Local', published: '2023-01-15', status: 'Vigente' },
-    { id: 'N002', name: 'Reglamento de Participación Ciudadana', published: '2023-07-22', status: 'Vigente' },
-    { id: 'N003', name: 'Decreto de Contratación Pública', published: '2022-11-01', status: 'Vigente' },
+    { id: 'N-OAX-01', name: 'Ley de Transparencia y Acceso a la Información de Oaxaca', published: '2024-01-10', status: 'Vigente' },
+    { id: 'N-OAX-02', name: 'Reglamento de Obras Públicas del Estado', published: '2024-03-15', status: 'Vigente' },
+    { id: 'N-OAX-03', name: 'Ley de Participación Ciudadana para el Estado de Oaxaca', published: '2023-11-20', status: 'Vigente' },
+    { id: 'N-OAX-04', name: 'Decreto de Austeridad y Ahorro Gubernamental', published: '2025-02-01', status: 'Propuesta' },
 ];
 
 export default function ValidacionInstitucionalPage() {
@@ -49,7 +52,7 @@ export default function ValidacionInstitucionalPage() {
                       <TableRow>
                         <TableHead>ID</TableHead>
                         <TableHead>Nombre</TableHead>
-                        <TableHead>Departamento</TableHead>
+                        <TableHead>Dependencia</TableHead>
                         <TableHead>Fecha</TableHead>
                         <TableHead>Monto</TableHead>
                         <TableHead className="text-right">Acción</TableHead>
@@ -73,12 +76,12 @@ export default function ValidacionInstitucionalPage() {
                 </div>
             </TabsContent>
             <TabsContent value="budgets" className="mt-6">
-                <h2 className="text-xl font-semibold mb-4 text-primary">Resumen de Presupuestos y Gastos</h2>
+                <h2 className="text-xl font-semibold mb-4 text-primary">Resumen de Presupuestos y Gastos (Año Fiscal 2025)</h2>
                 <div className="border rounded-lg">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Departamento</TableHead>
+                        <TableHead>Dependencia</TableHead>
                         <TableHead>Asignado</TableHead>
                         <TableHead>Gastado</TableHead>
                         <TableHead>Restante</TableHead>
@@ -116,7 +119,14 @@ export default function ValidacionInstitucionalPage() {
                         <TableCell className="font-mono text-xs">{reg.id}</TableCell>
                         <TableCell className="font-medium">{reg.name}</TableCell>
                         <TableCell>{reg.published}</TableCell>
-                        <TableCell><Badge variant="outline" className="text-accent-foreground border-accent">{reg.status}</Badge></TableCell>
+                        <TableCell>
+                            <Badge 
+                                variant={reg.status === 'Vigente' ? 'outline' : 'secondary'}
+                                className={reg.status === 'Vigente' ? 'text-accent-foreground border-accent' : ''}
+                            >
+                                {reg.status}
+                            </Badge>
+                        </TableCell>
                         <TableCell className="text-right">
                           <Button variant="ghost" size="icon"><Download className="h-4 w-4" /></Button>
                         </TableCell>
