@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Flag, Menu } from "lucide-react";
+import { Flag, Menu, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -23,8 +23,8 @@ export function Header() {
     const AppName = () => (
         <div className="flex items-center gap-2 text-primary font-bold text-lg md:text-xl">
             <Flag className="h-6 w-6" />
-            <span className="sm:hidden">PFPO</span>
-            <span className="hidden sm:inline">Portal de Funcionarios de Oaxaca</span>
+            <span className="sm:hidden">PTIC</span>
+            <span className="hidden sm:inline">Portal Transparencia, Imagen y Comunicación</span>
         </div>
     );
 
@@ -59,6 +59,12 @@ export function Header() {
                                             </Link>
                                         </SheetClose>
                                     ))}
+                                    <SheetClose asChild>
+                                        <Link href="/mi-cuenta" className="text-lg font-medium text-foreground hover:text-primary transition-colors pt-4 border-t border-border">
+                                            <UserCircle className="inline-block mr-2 h-5 w-5" />
+                                            Mi Cuenta
+                                        </Link>
+                                    </SheetClose>
                                 </nav>
                                 </div>
                             </SheetContent>
@@ -74,6 +80,12 @@ export function Header() {
                                     {link.label}
                                 </Link>
                             ))}
+                             <Button asChild variant="outline" size="sm">
+                                <Link href="/mi-cuenta">
+                                    <UserCircle className="mr-2" />
+                                    Mi Cuenta
+                                </Link>
+                            </Button>
                         </nav>
                     )}
                 </div>

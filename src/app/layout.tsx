@@ -5,7 +5,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Portal de Funcionarios Públicos de Oaxaca',
+  title: 'Portal Transparencia, Imagen y Comunicación',
   description: 'Plataforma para la gestión y comunicación de funcionarios públicos del estado de Oaxaca.',
 };
 

@@ -22,15 +22,15 @@ type Profile = {
 };
 
 const topLevel: Profile = {
-  id: "alcaldesa-ana-garcia",
-  name: "Ana García",
-  title: "Gobernadora del Estado",
-  avatar: "https://picsum.photos/100/100?q=1",
-  initials: "AG",
-  email: "gobernadora@oaxaca.gob.mx",
+  id: "directora-estefania-perez",
+  name: "Estefanía Pérez Vázquez",
+  title: "Directora y Fundadora",
+  avatar: "https://picsum.photos/100/100?q=5",
+  initials: "EP",
+  email: "direccion@ptic-oaxaca.org",
   phone: "+52 951 123 4567",
-  dataAiHint: "woman portrait",
-  department: "Gabinete del Gobernador"
+  dataAiHint: "woman director portrait",
+  department: "Dirección General"
 };
 
 const departments: { name: string; lead: Profile; }[] = [

@@ -56,8 +56,8 @@ export default function Home() {
             <Image 
                 src="https://picsum.photos/1200/400?q=6" 
                 alt="Palacio de Gobierno de Oaxaca"
-                layout="fill"
-                objectFit="cover"
+                fill={true}
+                style={{objectFit: 'cover'}}
                 className="opacity-20"
                 data-ai-hint="Oaxaca government"
             />
