@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Flag, Menu, UserCircle } from "lucide-react";
+import { Menu, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -16,15 +16,49 @@ const navLinks = [
     { href: "/repositorio-documental", label: "Repositorio Documental" },
 ];
 
+const Logo = () => (
+    <svg
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="text-primary"
+    >
+        <path
+            d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+        <path
+            d="M14 18.6667C16.5774 18.6667 18.6667 16.5774 18.6667 14C18.6667 11.4226 16.5774 9.33334 14 9.33334C11.4226 9.33334 9.33334 11.4226 9.33334 14"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+        <path
+            d="M20.6667 11.6667H16.3333V7.33334"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+
+
 export function Header() {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = React.useState(false);
 
     const AppName = () => (
-        <div className="flex items-center gap-2 text-primary font-bold text-lg md:text-xl">
-            <Flag className="h-6 w-6" />
-            <span className="sm:hidden">PTIC</span>
-            <span className="hidden sm:inline">Portal Transparencia, Imagen y Comunicación</span>
+        <div className="flex items-center gap-3 text-primary font-bold text-lg md:text-xl">
+            <Logo />
+            <span className="sm:hidden">GAO</span>
+            <span className="hidden sm:inline">Gobierno Abierto Oaxaca</span>
         </div>
     );
 

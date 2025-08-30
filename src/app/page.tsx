@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, BarChart3, Users, Building, CalendarDays, Archive, ArrowRight, Target, Lightbulb, CheckCircle } from "lucide-react";
-import Image from 'next/image';
 
 const features = [
   {
@@ -56,10 +55,10 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 h-20 bg-yellow-100/20"></div>
         <div className="relative z-10">
             <h1 className="text-4xl md:text-5xl font-bold text-primary">
-              Bienvenido al Portal de Funcionarios Públicos de Oaxaca
+              Gobierno Abierto Oaxaca
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-              Una plataforma integral para la gestión, comunicación y transparencia de los servidores públicos del estado.
+              Conectando ciudadanos, transformando gobierno.
             </p>
             <div className="mt-8">
                 <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
