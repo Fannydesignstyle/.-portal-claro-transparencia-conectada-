@@ -5,9 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Upload, User, Lock, FileText, BarChart, Edit, Save } from "lucide-react";
+import { Avatar } from "@/components/ui/avatar";
+import { Upload, Lock, FileText, Edit, Save } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -20,23 +19,19 @@ export default function MiCuentaPage() {
         event.preventDefault();
         
         if (!isEditing) {
-            // This is the login form
             toast({
                 title: "Inicio de Sesión Exitoso",
-                description: "Bienvenido de nuevo, Funcionario.",
+                description: "Bienvenida de nuevo, Estefanía.",
                 variant: "default",
             });
-            // Here you would typically handle actual login logic
-            // For this demo, we'll just switch to the editing view.
             setIsEditing(true);
         } else {
-            // This is the profile update form
             toast({
                 title: "Perfil Actualizado",
                 description: "Su información ha sido guardada correctamente.",
                 variant: "default",
             });
-            setIsEditing(false); // Go back to a "view" state after saving.
+            setIsEditing(false); 
         }
     };
 
@@ -52,11 +47,11 @@ export default function MiCuentaPage() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="username">Usuario</Label>
-                            <Input id="username" placeholder="Su usuario institucional" required />
+                            <Input id="username" placeholder="Su usuario institucional" required defaultValue="estefania.perez" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password">Contraseña</Label>
-                            <Input id="password" type="password" required />
+                            <Input id="password" type="password" required defaultValue="password" />
                         </div>
                         <Button type="submit" className="w-full">
                             <Lock className="mr-2"/>
@@ -89,25 +84,25 @@ export default function MiCuentaPage() {
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-center space-y-4">
                          <Avatar className="w-24 h-24 ring-4 ring-primary/20">
-                            <Image src="https://picsum.photos/100/100?q=7" alt="Funcionario" width={96} height={96} data-ai-hint="person portrait professional" className="rounded-full" />
+                            <Image src="https://picsum.photos/100/100?q=5" alt="Estefanía Pérez Vázquez" width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full" />
                         </Avatar>
                         <Button variant="outline" size="sm"><Upload className="mr-2"/>Cambiar Foto</Button>
                     </div>
                    <div className="space-y-2">
                         <Label htmlFor="name">Nombre Completo</Label>
-                        <Input id="name" defaultValue="Juan Pérez" />
+                        <Input id="name" defaultValue="Estefanía Pérez Vázquez" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="title">Cargo</Label>
-                        <Input id="title" defaultValue="Secretario de Desarrollo Urbano" />
+                        <Input id="title" defaultValue="Directora y Fundadora" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="email">Correo Electrónico</Label>
-                        <Input id="email" type="email" defaultValue="desarrollo.urbano@oaxaca.gob.mx" />
+                        <Input id="email" type="email" defaultValue="direccion@ptic-oaxaca.org" />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="phone">Teléfono</Label>
-                        <Input id="phone" type="tel" defaultValue="+52 951 234 5678" />
+                        <Input id="phone" type="tel" defaultValue="+52 951 123 4567" />
                     </div>
                     <Button className="w-full"><Save className="mr-2" />Guardar Cambios</Button>
                 </CardContent>
@@ -119,7 +114,7 @@ export default function MiCuentaPage() {
                 </CardHeader>
                 <CardContent className="flex flex-col items-center">
                     <Image 
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent("http://localhost:3000/perfiles-institucionales#juan-perez")}`} 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent("http://localhost:3000/perfiles-institucionales#directora-estefania-perez")}`} 
                         alt="QR code"
                         width={150}
                         height={150}

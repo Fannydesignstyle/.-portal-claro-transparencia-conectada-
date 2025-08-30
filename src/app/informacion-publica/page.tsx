@@ -8,17 +8,17 @@ import { Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const contracts = [
-  { id: 'C25-008', name: 'Mantenimiento de Infraestructura Vial', department: 'Secretaría de las Infraestructuras', date: '2025-08-10', amount: '€2,500,000' },
-  { id: 'C25-009', name: 'Adquisición de Insumos Médicos', department: 'Servicios de Salud de Oaxaca', date: '2025-08-22', amount: '€1,800,000' },
-  { id: 'C25-010', name: 'Consultoría para Plan de Desarrollo Turístico', department: 'Secretaría de Turismo', date: '2025-09-05', amount: '€350,000' },
-  { id: 'C25-011', name: 'Programa de Becas Escolares 2025', department: 'Instituto Estatal de Educación Pública', date: '2025-09-15', amount: '€5,000,000' },
+  { id: 'C25-008', name: 'Mantenimiento de Infraestructura Vial', department: 'Secretaría de las Infraestructuras', date: '2025-08-10', amount: '$50,000,000' },
+  { id: 'C25-009', name: 'Adquisición de Insumos Médicos', department: 'Servicios de Salud de Oaxaca', date: '2025-08-22', amount: '$36,000,000' },
+  { id: 'C25-010', name: 'Consultoría para Plan de Desarrollo Turístico', department: 'Secretaría de Turismo', date: '2025-09-05', amount: '$7,000,000' },
+  { id: 'C25-011', name: 'Programa de Becas Escolares 2025', department: 'Instituto Estatal de Educación Pública', date: '2025-09-15', amount: '$100,000,000' },
 ];
 
 const budgets = [
-  { department: 'Secretaría de las Infraestructuras', assigned: '€30,000,000', spent: '€18,500,000', remaining: '€11,500,000' },
-  { department: 'Servicios de Salud de Oaxaca', assigned: '€25,000,000', spent: '€15,200,000', remaining: '€9,800,000' },
-  { department: 'Secretaría de Finanzas', assigned: '€15,000,000', spent: '€9,750,000', remaining: '€5,250,000' },
-  { department: 'Secretaría de Seguridad y Protección', assigned: '€22,000,000', spent: '€14,800,000', remaining: '€7,200,000' },
+  { department: 'Secretaría de las Infraestructuras', assigned: '$600,000,000', spent: '$370,000,000', remaining: '$230,000,000' },
+  { department: 'Servicios de Salud de Oaxaca', assigned: '$500,000,000', spent: '$304,000,000', remaining: '$196,000,000' },
+  { department: 'Secretaría de Finanzas', assigned: '$300,000,000', spent: '$195,000,000', remaining: '$105,000,000' },
+  { department: 'Secretaría de Seguridad y Protección', assigned: '$440,000,000', spent: '$296,000,000', remaining: '$144,000,000' },
 ];
 
 const regulations = [
@@ -54,7 +54,7 @@ export default function ValidacionInstitucionalPage() {
                         <TableHead>Nombre</TableHead>
                         <TableHead>Dependencia</TableHead>
                         <TableHead>Fecha</TableHead>
-                        <TableHead>Monto</TableHead>
+                        <TableHead>Monto (MXN)</TableHead>
                         <TableHead className="text-right">Acción</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -82,9 +82,9 @@ export default function ValidacionInstitucionalPage() {
                     <TableHeader>
                       <TableRow>
                         <TableHead>Dependencia</TableHead>
-                        <TableHead>Asignado</TableHead>
-                        <TableHead>Gastado</TableHead>
-                        <TableHead>Restante</TableHead>
+                        <TableHead>Asignado (MXN)</TableHead>
+                        <TableHead>Gastado (MXN)</TableHead>
+                        <TableHead>Restante (MXN)</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
