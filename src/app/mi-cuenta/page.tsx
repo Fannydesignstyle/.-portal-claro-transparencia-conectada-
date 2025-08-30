@@ -15,6 +15,7 @@ export default function MiCuentaPage() {
     const { toast } = useToast();
     const [isEditing, setIsEditing] = useState(false);
     const [qrKey, setQrKey] = useState(Date.now());
+    const [avatarPreview, setAvatarPreview] = useState("https://picsum.photos/100/100?q=5");
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,10 +40,21 @@ export default function MiCuentaPage() {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (file) {
-            toast({
-                title: "Archivo Seleccionado",
-                description: `${file.name} listo para subirse.`,
+        if (file && file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarPreview(reader.result as string);
+                toast({
+                    title: "Foto Actualizada",
+                    description: "La nueva foto de perfil está lista.",
+                });
+            };
+            reader.readAsDataURL(file);
+        } else if (file) {
+             toast({
+                title: "Archivo no válido",
+                description: "Por favor, seleccione un archivo de imagen.",
+                variant: "destructive"
             });
         }
     };
@@ -110,9 +122,10 @@ export default function MiCuentaPage() {
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-center space-y-4">
                          <Avatar className="w-24 h-24 ring-4 ring-primary/20">
-                            <Image src="https://picsum.photos/100/100?q=5" alt="Estefanía Pérez Vázquez" width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full" />
+                            <Image src={avatarPreview} alt="Estefanía Pérez Vázquez" width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full object-cover" />
                         </Avatar>
                         <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar Foto</Button>
+                        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
                     </div>
                    <div className="space-y-2">
                         <Label htmlFor="name">Nombre Completo</Label>
