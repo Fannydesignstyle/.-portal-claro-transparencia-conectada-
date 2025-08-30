@@ -51,18 +51,9 @@ const features = [
 export default function Home() {
   return (
     <div className="space-y-16">
-      <section className="relative text-center bg-card p-10 rounded-lg shadow-lg overflow-hidden">
-        <div className="absolute inset-0">
-            <Image 
-                src="https://picsum.photos/1200/400?q=6" 
-                alt="Palacio de Gobierno de Oaxaca"
-                fill={true}
-                style={{objectFit: 'cover'}}
-                className="opacity-20"
-                data-ai-hint="Oaxaca government"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
-        </div>
+      <section className="relative text-center bg-card p-10 rounded-lg shadow-sm overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-20 bg-pink-100/30"></div>
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-yellow-100/20"></div>
         <div className="relative z-10">
             <h1 className="text-4xl md:text-5xl font-bold text-primary">
               Bienvenido al Portal de Funcionarios Públicos de Oaxaca
