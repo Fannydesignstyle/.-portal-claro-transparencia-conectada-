@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Menu, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import React from "react";
 
@@ -78,6 +78,9 @@ export function Header() {
                                 </Button>
                             </SheetTrigger>
                             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-card">
+                                <SheetHeader className="p-4 pb-0">
+                                  <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
+                                </SheetHeader>
                                 <div className="p-4">
                                 <Link href="/" className="mb-8" onClick={() => setIsOpen(false)}>
                                     <AppName />
