@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle } from "lucide-react";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
@@ -30,6 +31,7 @@ export default function MiCuentaPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         setLocalProfile(profile);
@@ -87,6 +89,7 @@ export default function MiCuentaPage() {
             reader.onloadend = () => {
                 const newAvatarUrl = reader.result as string;
                 setLocalProfile(prev => ({ ...prev, avatar: newAvatarUrl }));
+                setProfile(prev => ({ ...prev, avatar: newAvatarUrl }));
                 toast({
                     title: "Foto Actualizada",
                     description: "La nueva foto de perfil está lista para ser guardada.",
@@ -132,7 +135,23 @@ export default function MiCuentaPage() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password">Contraseña</Label>
-                            <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                             <div className="relative">
+                                <Input 
+                                    id="password" 
+                                    type={showPassword ? "text" : "password"} 
+                                    required 
+                                    value={password} 
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="pr-10"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                                >
+                                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                </button>
+                            </div>
                         </div>
                          {error && (
                             <Alert variant="destructive">
@@ -263,3 +282,5 @@ export default function MiCuentaPage() {
     </div>
   );
 }
+
+    
