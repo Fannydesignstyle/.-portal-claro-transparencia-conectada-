@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -15,8 +14,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // --- INSTRUCCIONES ---
 // Para cambiar las credenciales de acceso, modifica los siguientes valores.
-const ADMIN_USERNAME = "admin"; // Cambia "admin" por tu usuario deseado
-const ADMIN_PASSWORD = "password"; // Cambia "password" por tu contraseña deseada
+const ADMIN_USERNAME = "estefania"; // Cambia "admin" por tu usuario deseado
+const ADMIN_PASSWORD = "transparencia conectada"; // Cambia "password" por tu contraseña deseada
 // --------------------
 
 export default function MiCuentaPage() {
