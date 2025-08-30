@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Mail, Phone, QrCode, Download, Building, Globe } from "lucide-react";
@@ -8,29 +8,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import html2canvas from 'html2canvas';
-
-type Profile = {
-  id: string;
-  name: string;
-  title: string;
-  avatar: string;
-  email: string;
-  phone: string;
-  dataAiHint?: string;
-  department: string;
-  website?: string;
-};
-
-const topLevel: Profile = {
-  id: "directora-estefania-perez",
-  name: "Estefanía Pérez Vázquez",
-  title: "Directora y Fundadora",
-  avatar: "https://picsum.photos/100/100?q=5",
-  email: "direccion@ptic-oaxaca.org",
-  phone: "+52 951 123 4567",
-  dataAiHint: "woman director portrait",
-  department: "Dirección General"
-};
+import { ProfileContext, type Profile } from '@/context/ProfileContext';
 
 const foundingPartner: Profile = {
     id: "fanny-design-style",
@@ -169,6 +147,7 @@ const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (p
 
 export default function ImagenPublicaPage() {
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const { profile: topLevelProfile } = useContext(ProfileContext);
 
   return (
     <div className="space-y-8">
@@ -182,7 +161,7 @@ export default function ImagenPublicaPage() {
           <CardTitle>Dirección y Socios Fundadores</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
-            <ProfileCard profile={topLevel} onShowCard={setSelectedProfile} />
+            <ProfileCard profile={topLevelProfile} onShowCard={setSelectedProfile} />
             <ProfileCard profile={foundingPartner} onShowCard={setSelectedProfile} />
         </CardContent>
       </Card>

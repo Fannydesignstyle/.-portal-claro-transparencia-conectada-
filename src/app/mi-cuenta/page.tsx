@@ -9,13 +9,17 @@ import { Avatar } from "@/components/ui/avatar";
 import { Upload, Lock, FileText, Edit, Save, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import { ProfileContext } from "@/context/ProfileContext";
 
 export default function MiCuentaPage() {
     const { toast } = useToast();
     const [isEditing, setIsEditing] = useState(false);
     const [qrKey, setQrKey] = useState(Date.now());
-    const [avatarPreview, setAvatarPreview] = useState("https://picsum.photos/100/100?q=5");
+    
+    const { profile, setProfile } = useContext(ProfileContext);
+    const [avatarPreview, setAvatarPreview] = useState(profile.avatar);
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -43,7 +47,9 @@ export default function MiCuentaPage() {
         if (file && file.type.startsWith("image/")) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setAvatarPreview(reader.result as string);
+                const newAvatarUrl = reader.result as string;
+                setAvatarPreview(newAvatarUrl);
+                setProfile({ ...profile, avatar: newAvatarUrl });
                 toast({
                     title: "Foto Actualizada",
                     description: "La nueva foto de perfil está lista.",
