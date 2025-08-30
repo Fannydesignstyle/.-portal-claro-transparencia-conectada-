@@ -89,7 +89,6 @@ export default function MiCuentaPage() {
             reader.onloadend = () => {
                 const newAvatarUrl = reader.result as string;
                 setLocalProfile(prev => ({ ...prev, avatar: newAvatarUrl }));
-                setProfile(prev => ({ ...prev, avatar: newAvatarUrl }));
                 toast({
                     title: "Foto Actualizada",
                     description: "La nueva foto de perfil está lista para ser guardada.",
@@ -148,6 +147,7 @@ export default function MiCuentaPage() {
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
                                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                                 >
                                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                                 </button>
@@ -223,7 +223,7 @@ export default function MiCuentaPage() {
                 <CardContent className="flex flex-col items-center">
                     <Image 
                         key={qrKey}
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent("http://localhost:3000/perfiles-institucionales#directora-estefania-perez")}&r=${qrKey}`} 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`http://localhost:3000/perfiles-institucionales#${profile.id}`)}&r=${qrKey}`} 
                         alt="QR code"
                         width={150}
                         height={150}
@@ -249,7 +249,7 @@ export default function MiCuentaPage() {
                         <Upload className="mx-auto h-12 w-12 text-muted-foreground"/>
                         <p className="mt-2 text-sm text-muted-foreground">Arrastre y suelte archivos aquí o haga clic para seleccionar</p>
                         <Input id="file-upload" type="file" className="hidden" />
-                         <Button variant="outline" className="mt-4" onClick={() => {}}>
+                         <Button variant="outline" className="mt-4" onClick={() => document.getElementById('file-upload')?.click()}>
                             <FileText className="mr-2"/>
                             Seleccionar Archivos
                         </Button>
@@ -282,5 +282,3 @@ export default function MiCuentaPage() {
     </div>
   );
 }
-
-    

@@ -1,14 +1,16 @@
+
 "use client";
 
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
-import { Mail, Phone, QrCode, Download, Building, Globe } from "lucide-react";
+import { Mail, Phone, QrCode, Download, Building, Globe, Search } from "lucide-react";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import html2canvas from 'html2canvas';
 import { ProfileContext, type Profile } from '@/context/ProfileContext';
+import { Input } from '@/components/ui/input';
 
 const foundingPartner: Profile = {
     id: "fanny-design-style",
@@ -21,6 +23,20 @@ const foundingPartner: Profile = {
     department: "Diseño Gráfico y Servicios Institucionales Corporativos",
     website: "www.fannydesign.com"
 };
+
+const otherInstitutions: Profile[] = [
+    {
+      id: "congreso-oaxaca",
+      name: "Congreso del Estado de Oaxaca",
+      title: "Poder Legislativo",
+      avatar: "https://picsum.photos/100/100?q=9",
+      email: "contacto@congresooaxaca.gob.mx",
+      phone: "+52 951 502 0230",
+      dataAiHint: "government building illustration",
+      department: "Congreso del Estado",
+      website: "www.congresooaxaca.gob.mx"
+    }
+];
 
 const departments: { name: string; lead: Profile; }[] = [
   {
@@ -118,10 +134,11 @@ const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: ()
 const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (profile: Profile) => void; }) => (
   <Card id={profile.id} className="text-center p-4 flex flex-col items-center shadow-sm hover:shadow-lg transition-shadow">
     <Avatar className="w-20 h-20 mb-4 ring-2 ring-primary/20">
-      <Image src={profile.avatar} alt={profile.name} width={80} height={80} data-ai-hint={profile.dataAiHint} className="rounded-full" />
+      <Image src={profile.avatar} alt={profile.name} width={80} height={80} data-ai-hint={profile.dataAiHint} className="rounded-full object-cover" />
     </Avatar>
     <p className="font-bold text-lg text-primary">{profile.name}</p>
     <p className="text-sm text-muted-foreground">{profile.title}</p>
+    <p className="text-xs text-muted-foreground mt-1 bg-secondary/50 px-2 py-1 rounded-full">{profile.department}</p>
     <div className="mt-4 space-y-2 text-sm">
       <a href={`mailto:${profile.email}`} className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
         <Mail className="h-4 w-4" />
@@ -148,34 +165,49 @@ const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (p
 export default function ImagenPublicaPage() {
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const { profile: topLevelProfile } = useContext(ProfileContext);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const allProfiles = useMemo(() => {
+    return [topLevelProfile, foundingPartner, ...departments.map(d => d.lead), ...otherInstitutions];
+  }, [topLevelProfile]);
+
+  const filteredProfiles = useMemo(() => {
+    if (!searchTerm) return allProfiles;
+    return allProfiles.filter(p =>
+      p.department?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, allProfiles]);
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Imagen Pública</h1>
-      <p className="text-muted-foreground">
-        Representación visual legítima, validada institucionalmente. Conozca la estructura y responsables.
-      </p>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Dirección y Socios Fundadores</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
-            <ProfileCard profile={topLevelProfile} onShowCard={setSelectedProfile} />
-            <ProfileCard profile={foundingPartner} onShowCard={setSelectedProfile} />
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Perfiles Institucionales (Secretarías)</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
-          {departments.map((dept) => (
-              <ProfileCard key={dept.lead.id} profile={dept.lead} onShowCard={setSelectedProfile} />
-          ))}
-        </CardContent>
-      </Card>
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+        <div>
+            <h1 className="text-3xl font-bold text-primary">Imagen Pública</h1>
+            <p className="text-muted-foreground">
+                Representación visual legítima, validada institucionalmente. Conozca la estructura y responsables.
+            </p>
+        </div>
+        <div className="relative w-full md:w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input 
+                type="search"
+                placeholder="Buscar por dependencia..."
+                className="pl-10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
+        {filteredProfiles.length > 0 ? filteredProfiles.map((profile) => (
+            <ProfileCard key={profile.id} profile={profile} onShowCard={setSelectedProfile} />
+        )) : (
+            <p className="text-center text-muted-foreground col-span-full">
+                No se encontraron perfiles que coincidan con la búsqueda.
+            </p>
+        )}
+      </div>
       
       {selectedProfile && (
         <InstitutionalCard 

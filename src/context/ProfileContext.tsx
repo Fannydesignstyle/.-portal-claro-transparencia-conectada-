@@ -22,12 +22,12 @@ const initialProfile: Profile = {
   email: "direccion@ptic-oaxaca.org",
   phone: "+52 951 123 4567",
   dataAiHint: "woman director portrait",
-  department: "Dirección General"
+  department: "Plataforma Voz Ciudadana"
 };
 
 interface ProfileContextType {
   profile: Profile;
-  setProfile: (profile: Profile) => void;
+  setProfile: (profile: Profile | ((prev: Profile) => Profile)) => void;
 }
 
 export const ProfileContext = createContext<ProfileContextType>({
@@ -38,8 +38,12 @@ export const ProfileContext = createContext<ProfileContextType>({
 export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<Profile>(initialProfile);
 
+  const setProfileHandler = (newProfile: Profile | ((prev: Profile) => Profile)) => {
+    setProfile(newProfile);
+  };
+
   return (
-    <ProfileContext.Provider value={{ profile, setProfile }}>
+    <ProfileContext.Provider value={{ profile, setProfile: setProfileHandler }}>
       {children}
     </ProfileContext.Provider>
   );
