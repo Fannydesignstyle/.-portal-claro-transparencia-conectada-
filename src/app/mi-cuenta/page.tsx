@@ -141,15 +141,6 @@ export default function MiCuentaPage() {
                                 <AlertDescription>{error}</AlertDescription>
                             </Alert>
                         )}
-                        {(ADMIN_USERNAME === "admin" && ADMIN_PASSWORD === "password") && (
-                             <Alert variant="default" className="border-yellow-500/50 text-yellow-700 [&>svg]:text-yellow-700">
-                                <AlertTriangle className="h-4 w-4" />
-                                <AlertTitle>Modo de Demostración</AlertTitle>
-                                <AlertDescription>
-                                    Usando credenciales por defecto. Puede cambiarlas directamente en el código de esta página.
-                                </AlertDescription>
-                            </Alert>
-                        )}
                         <Button type="submit" className="w-full">
                             <Lock className="mr-2"/>
                             Iniciar Sesión
