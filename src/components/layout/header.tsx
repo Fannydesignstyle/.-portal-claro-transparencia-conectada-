@@ -21,10 +21,10 @@ export function Header() {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const AppName = () => (
-        <div className="flex items-center gap-2 text-primary font-bold text-xl">
+        <div className="flex items-center gap-2 text-primary font-bold text-lg md:text-xl">
             <Flag className="h-6 w-6" />
-            <span className="sm:hidden">PTIC</span>
-            <span className="hidden sm:inline">Portal Transparencia, Imagen y Comunicación</span>
+            <span className="sm:hidden">PFPO</span>
+            <span className="hidden sm:inline">Portal de Funcionarios de Oaxaca</span>
         </div>
     );
 
@@ -45,10 +45,10 @@ export function Header() {
                             </SheetTrigger>
                             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-card">
                                 <div className="p-4">
-                                <Link href="/" className="mb-8">
+                                <Link href="/" className="mb-8" onClick={() => setIsOpen(false)}>
                                     <AppName />
                                 </Link>
-                                <nav className="flex flex-col gap-4">
+                                <nav className="flex flex-col gap-4 mt-8">
                                     {navLinks.map((link) => (
                                         <SheetClose asChild key={link.href}>
                                             <Link
