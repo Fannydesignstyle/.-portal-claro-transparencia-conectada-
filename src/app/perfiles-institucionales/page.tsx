@@ -18,7 +18,7 @@ const topLevel: Profile = {
   title: "Alcaldesa",
   avatar: "https://picsum.photos/100/100?q=1",
   initials: "AG",
-  email: "alcaldia@portalclaro.gob",
+  email: "alcaldia@portaltransparencia.gob",
   phone: "+34 123 456 789",
   dataAiHint: "woman portrait"
 };
@@ -31,7 +31,7 @@ const departments: { name: string; lead: Profile; members?: Profile[] }[] = [
       title: "Jefe de Urbanismo",
       avatar: "https://picsum.photos/100/100?q=2",
       initials: "CS",
-      email: "urbanismo@portalclaro.gob",
+      email: "urbanismo@portaltransparencia.gob",
       phone: "+34 987 654 321",
       dataAiHint: "man portrait"
     },
@@ -43,7 +43,7 @@ const departments: { name: string; lead: Profile; members?: Profile[] }[] = [
       title: "Jefa de Hacienda",
       avatar: "https://picsum.photos/100/100?q=3",
       initials: "LF",
-      email: "hacienda@portalclaro.gob",
+      email: "hacienda@portaltransparencia.gob",
       phone: "+34 876 543 210",
       dataAiHint: "woman portrait professional"
     },
@@ -55,7 +55,7 @@ const departments: { name: string; lead: Profile; members?: Profile[] }[] = [
       title: "Jefe de Servicios Sociales",
       avatar: "https://picsum.photos/100/100?q=4",
       initials: "JM",
-      email: "social@portalclaro.gob",
+      email: "social@portaltransparencia.gob",
       phone: "+34 765 432 109",
       dataAiHint: "man portrait professional"
     },

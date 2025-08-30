@@ -20,13 +20,20 @@ export function Header() {
     const isMobile = useIsMobile();
     const [isOpen, setIsOpen] = React.useState(false);
 
+    const AppName = () => (
+        <div className="flex items-center gap-2 text-primary font-bold text-xl">
+            <Flag className="h-6 w-6" />
+            <span className="sm:hidden">PTIC</span>
+            <span className="hidden sm:inline">Portal Transparencia, Imagen y Comunicación</span>
+        </div>
+    );
+
     return (
         <header className="bg-card shadow-md sticky top-0 z-50">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center h-20">
-                    <Link href="/" className="flex items-center gap-2 text-primary font-bold text-xl">
-                        <Flag className="h-6 w-6" />
-                        <span>PortalClaro</span>
+                    <Link href="/">
+                        <AppName />
                     </Link>
                     
                     {isMobile ? (
@@ -38,9 +45,8 @@ export function Header() {
                             </SheetTrigger>
                             <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-card">
                                 <div className="p-4">
-                                <Link href="/" className="flex items-center gap-2 text-primary font-bold text-xl mb-8">
-                                    <Flag className="h-6 w-6" />
-                                    <span>PortalClaro</span>
+                                <Link href="/" className="mb-8">
+                                    <AppName />
                                 </Link>
                                 <nav className="flex flex-col gap-4">
                                     {navLinks.map((link) => (

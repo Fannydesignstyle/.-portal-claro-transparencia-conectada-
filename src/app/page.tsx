@@ -51,7 +51,7 @@ export default function Home() {
     <div className="space-y-12">
       <section className="text-center bg-card p-10 rounded-lg shadow">
         <h1 className="text-4xl md:text-5xl font-bold text-primary">
-          Bienvenido a PortalClaro
+          Bienvenido a Portal Transparencia, Imagen y Comunicación
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
           Un espacio dedicado a la transparencia y el gobierno abierto. Explore, participe y manténgase informado sobre la gestión pública.

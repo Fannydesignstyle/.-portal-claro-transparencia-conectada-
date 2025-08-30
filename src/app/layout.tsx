@@ -5,7 +5,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'PortalClaro',
+  title: 'Portal Transparencia, Imagen y Comunicación',
   description: 'Portal de Transparencia y Gobierno Abierto',
 };
 
