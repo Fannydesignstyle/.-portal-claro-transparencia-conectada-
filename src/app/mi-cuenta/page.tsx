@@ -13,6 +13,12 @@ import { useState, useRef, useContext, useEffect } from "react";
 import { ProfileContext, type Profile } from "@/context/ProfileContext";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+// --- INSTRUCCIONES ---
+// Para cambiar las credenciales de acceso, modifica los siguientes valores.
+const ADMIN_USERNAME = "admin"; // Cambia "admin" por tu usuario deseado
+const ADMIN_PASSWORD = "password"; // Cambia "password" por tu contraseña deseada
+// --------------------
+
 export default function MiCuentaPage() {
     const { toast } = useToast();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,11 +42,7 @@ export default function MiCuentaPage() {
         event.preventDefault();
         setError('');
 
-        // These would be your actual environment variables
-        const adminUser = process.env.NEXT_PUBLIC_ADMIN_USERNAME || "admin";
-        const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "password";
-
-        if (username === adminUser && password === adminPass) {
+        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
             toast({
                 title: "Inicio de Sesión Exitoso",
                 description: `Bienvenida de nuevo, ${profile.name}.`,
@@ -140,14 +142,12 @@ export default function MiCuentaPage() {
                                 <AlertDescription>{error}</AlertDescription>
                             </Alert>
                         )}
-                        {(!process.env.NEXT_PUBLIC_ADMIN_USERNAME || !process.env.NEXT_PUBLIC_ADMIN_PASSWORD) && (
+                        {(ADMIN_USERNAME === "admin" && ADMIN_PASSWORD === "password") && (
                              <Alert variant="default" className="border-yellow-500/50 text-yellow-700 [&>svg]:text-yellow-700">
                                 <AlertTriangle className="h-4 w-4" />
                                 <AlertTitle>Modo de Demostración</AlertTitle>
                                 <AlertDescription>
-                                    Usando credenciales por defecto: <br/>
-                                    Usuario: <b>admin</b>, Contraseña: <b>password</b>. <br/>
-                                    Cree un archivo `.env.local` para usar credenciales reales.
+                                    Usando credenciales por defecto. Puede cambiarlas directamente en el código de esta página.
                                 </AlertDescription>
                             </Alert>
                         )}
