@@ -2,8 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Mail, Phone, QrCode, Download, X } from "lucide-react";
+import { Avatar } from "@/components/ui/avatar";
+import { Mail, Phone, QrCode, Download, Building, Globe } from "lucide-react";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -14,11 +14,11 @@ type Profile = {
   name: string;
   title: string;
   avatar: string;
-  initials: string;
   email: string;
   phone: string;
   dataAiHint?: string;
   department: string;
+  website?: string;
 };
 
 const topLevel: Profile = {
@@ -26,11 +26,22 @@ const topLevel: Profile = {
   name: "Estefanía Pérez Vázquez",
   title: "Directora y Fundadora",
   avatar: "https://picsum.photos/100/100?q=5",
-  initials: "EP",
   email: "direccion@ptic-oaxaca.org",
   phone: "+52 951 123 4567",
   dataAiHint: "woman director portrait",
   department: "Dirección General"
+};
+
+const foundingPartner: Profile = {
+    id: "fanny-design-style",
+    name: "Fanny Design Style",
+    title: "Agencia Fundadora",
+    avatar: "https://picsum.photos/100/100?q=8",
+    email: "contacto@fannydesign.com",
+    phone: "+52 222 123 4567",
+    dataAiHint: "logo design agency",
+    department: "Diseño Gráfico y Servicios Institucionales Corporativos",
+    website: "www.fannydesign.com"
 };
 
 const departments: { name: string; lead: Profile; }[] = [
@@ -41,7 +52,6 @@ const departments: { name: string; lead: Profile; }[] = [
       name: "Carlos Sánchez",
       title: "Secretario de Finanzas",
       avatar: "https://picsum.photos/100/100?q=2",
-      initials: "CS",
       email: "finanzas@oaxaca.gob.mx",
       phone: "+52 951 987 6543",
       dataAiHint: "man portrait",
@@ -55,7 +65,6 @@ const departments: { name: string; lead: Profile; }[] = [
       name: "Lucía Fernández",
       title: "Secretaria de Salud",
       avatar: "https://picsum.photos/100/100?q=3",
-      initials: "LF",
       email: "salud@oaxaca.gob.mx",
       phone: "+52 951 876 5432",
       dataAiHint: "woman portrait professional",
@@ -69,7 +78,6 @@ const departments: { name: string; lead: Profile; }[] = [
       name: "Javier Moreno",
       title: "Secretario de Bienestar",
       avatar: "https://picsum.photos/100/100?q=4",
-      initials: "JM",
       email: "bienestar@oaxaca.gob.mx",
       phone: "+52 951 765 4321",
       dataAiHint: "man portrait professional",
@@ -145,6 +153,12 @@ const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (p
         <Phone className="h-4 w-4" />
         <span>{profile.phone}</span>
       </a>
+      {profile.website && (
+         <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+            <Globe className="h-4 w-4" />
+            <span>{profile.website}</span>
+        </a>
+      )}
     </div>
     <Button variant="outline" size="sm" className="mt-4" onClick={() => onShowCard(profile)}>
         <QrCode className="mr-2 h-4 w-4"/>
@@ -165,25 +179,22 @@ export default function PerfilesInstitucionalesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Organigrama Institucional</CardTitle>
+          <CardTitle>Dirección y Socios Fundadores</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col items-center space-y-8 py-8">
-          <div className="relative">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
             <ProfileCard profile={topLevel} onShowCard={setSelectedProfile} />
-            <div className="absolute top-full left-1/2 w-0.5 h-8 bg-border -translate-x-1/2"></div>
-          </div>
+            <ProfileCard profile={foundingPartner} onShowCard={setSelectedProfile} />
+        </CardContent>
+      </Card>
 
-          <div className="w-full max-w-4xl h-0.5 bg-border relative mt-8 hidden md:block">
-            <div className="absolute bottom-0 left-[16.66%] w-0.5 h-8 bg-border -translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-1/2 w-0.5 h-8 bg-border -translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-[83.33%] w-0.5 h-8 bg-border -translate-x-1/2"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mt-8">
-            {departments.map((dept) => (
+      <Card>
+        <CardHeader>
+          <CardTitle>Organigrama Institucional (Secretarías)</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
+          {departments.map((dept) => (
               <ProfileCard key={dept.lead.id} profile={dept.lead} onShowCard={setSelectedProfile} />
-            ))}
-          </div>
+          ))}
         </CardContent>
       </Card>
       

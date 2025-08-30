@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, BarChart3, Users, Building, CalendarDays, Archive, ArrowRight } from "lucide-react";
+import { FileText, BarChart3, Users, Building, CalendarDays, Archive, ArrowRight, Target, Lightbulb, CheckCircle } from "lucide-react";
 import Image from 'next/image';
 
 const features = [
@@ -50,7 +50,7 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="space-y-12">
+    <div className="space-y-16">
       <section className="relative text-center bg-card p-10 rounded-lg shadow-lg overflow-hidden">
         <div className="absolute inset-0">
             <Image 
@@ -81,7 +81,59 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="about" className="space-y-12">
+        <div className="text-center">
+            <h2 className="text-3xl font-bold text-primary">Nuestra Misión</h2>
+            <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">Democratizar la información y fortalecer el vínculo entre los funcionarios y la ciudadanía a través de la tecnología.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card>
+                <CardHeader className="items-center text-center">
+                    <Target className="h-10 w-10 text-primary mb-2" />
+                    <CardTitle>Objetivos</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <ul className="space-y-2 text-muted-foreground list-disc list-inside">
+                        <li>Centralizar la información pública.</li>
+                        <li>Facilitar la rendición de cuentas.</li>
+                        <li>Fomentar la participación ciudadana.</li>
+                        <li>Optimizar la gestión documental.</li>
+                    </ul>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="items-center text-center">
+                    <Lightbulb className="h-10 w-10 text-primary mb-2" />
+                    <CardTitle>Propuesta de Valor</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <ul className="space-y-2 text-muted-foreground list-disc list-inside">
+                        <li>Herramientas digitales modernas.</li>
+                        <li>Perfiles institucionales unificados.</li>
+                        <li>Canales de comunicación directos.</li>
+                        <li>Transparencia y acceso abierto.</li>
+                    </ul>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="items-center text-center">
+                    <CheckCircle className="h-10 w-10 text-primary mb-2" />
+                    <CardTitle>Manifiesto</CardTitle>
+                </CardHeader>
+                <CardContent>
+                     <p className="text-muted-foreground">
+                        Creemos en un gobierno abierto, donde la tecnología sirve como puente para construir confianza. Nos comprometemos a la innovación, la integridad y la colaboración como pilares de una gestión pública transparente y eficiente.
+                    </p>
+                </CardContent>
+            </Card>
+        </div>
+      </section>
+
       <section id="features">
+        <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-primary">Módulos de la Plataforma</h2>
+            <p className="mt-2 text-muted-foreground">Explora las herramientas y recursos que hemos construido para ti.</p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature) => (
             <Link href={feature.href} key={feature.title} className="group">
