@@ -6,33 +6,59 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save } from "lucide-react";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function MiCuentaPage() {
     const { toast } = useToast();
     const [isEditing, setIsEditing] = useState(false);
+    const [qrKey, setQrKey] = useState(Date.now());
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
-        if (!isEditing) {
+        toast({
+            title: "Inicio de Sesión Exitoso",
+            description: "Bienvenida de nuevo, Estefanía.",
+        });
+        setIsEditing(true);
+    };
+
+    const handleProfileSave = () => {
+        toast({
+            title: "Perfil Actualizado",
+            description: "Su información ha sido guardada correctamente.",
+        });
+    };
+    
+    const handleFileSelectClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
             toast({
-                title: "Inicio de Sesión Exitoso",
-                description: "Bienvenida de nuevo, Estefanía.",
-                variant: "default",
+                title: "Archivo Seleccionado",
+                description: `${file.name} listo para subirse.`,
             });
-            setIsEditing(true);
-        } else {
-            toast({
-                title: "Perfil Actualizado",
-                description: "Su información ha sido guardada correctamente.",
-                variant: "default",
-            });
-            setIsEditing(false); 
         }
+    };
+    
+    const handleRegenerateQr = () => {
+        toast({
+            description: "Generando nuevo código QR...",
+        });
+        // Change the key to force re-render of the Image component
+        setTimeout(() => {
+            setQrKey(Date.now());
+            toast({
+                title: "QR Actualizado",
+                description: "Su nuevo código QR ha sido generado.",
+            });
+        }, 1000);
     };
 
   if (!isEditing) {
@@ -44,7 +70,7 @@ export default function MiCuentaPage() {
                     <CardDescription>Inicie sesión para gestionar su perfil.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleLoginSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="username">Usuario</Label>
                             <Input id="username" placeholder="Su usuario institucional" required defaultValue="estefania.perez" />
@@ -86,7 +112,7 @@ export default function MiCuentaPage() {
                          <Avatar className="w-24 h-24 ring-4 ring-primary/20">
                             <Image src="https://picsum.photos/100/100?q=5" alt="Estefanía Pérez Vázquez" width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full" />
                         </Avatar>
-                        <Button variant="outline" size="sm"><Upload className="mr-2"/>Cambiar Foto</Button>
+                        <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar Foto</Button>
                     </div>
                    <div className="space-y-2">
                         <Label htmlFor="name">Nombre Completo</Label>
@@ -104,7 +130,7 @@ export default function MiCuentaPage() {
                         <Label htmlFor="phone">Teléfono</Label>
                         <Input id="phone" type="tel" defaultValue="+52 951 123 4567" />
                     </div>
-                    <Button className="w-full"><Save className="mr-2" />Guardar Cambios</Button>
+                    <Button className="w-full" onClick={handleProfileSave}><Save className="mr-2" />Guardar Cambios</Button>
                 </CardContent>
             </Card>
             <Card>
@@ -114,13 +140,17 @@ export default function MiCuentaPage() {
                 </CardHeader>
                 <CardContent className="flex flex-col items-center">
                     <Image 
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent("http://localhost:3000/perfiles-institucionales#directora-estefania-perez")}`} 
+                        key={qrKey}
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent("http://localhost:3000/perfiles-institucionales#directora-estefania-perez")}&r=${qrKey}`} 
                         alt="QR code"
                         width={150}
                         height={150}
                         className="mb-4"
                     />
-                    <Button variant="secondary" className="w-full">Volver a Generar QR</Button>
+                    <Button variant="secondary" className="w-full" onClick={handleRegenerateQr}>
+                        <RefreshCw className="mr-2"/>
+                        Volver a Generar QR
+                    </Button>
                 </CardContent>
             </Card>
         </div>
@@ -136,8 +166,8 @@ export default function MiCuentaPage() {
                     <div className="p-6 border-2 border-dashed rounded-lg text-center">
                         <Upload className="mx-auto h-12 w-12 text-muted-foreground"/>
                         <p className="mt-2 text-sm text-muted-foreground">Arrastre y suelte archivos aquí o haga clic para seleccionar</p>
-                        <Input type="file" className="hidden"/>
-                         <Button variant="outline" className="mt-4">
+                        <Input id="file-upload" type="file" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
+                         <Button variant="outline" className="mt-4" onClick={handleFileSelectClick}>
                             <FileText className="mr-2"/>
                             Seleccionar Archivos
                         </Button>
