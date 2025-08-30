@@ -8,13 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 
-export default function ParticipacionCiudadanaPage() {
+export default function ComunicacionEticaPage() {
     const { toast } = useToast();
 
     const handleSurveySubmit = (event: React.FormEvent) => {
         event.preventDefault();
         toast({
-            title: "Encuesta Enviada",
+            title: "Voto Registrado",
             description: "Gracias por su participación.",
             variant: "default",
         });
@@ -36,15 +36,15 @@ export default function ParticipacionCiudadanaPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Participación Ciudadana</h1>
+      <h1 className="text-3xl font-bold text-primary">Comunicación Ética</h1>
       <p className="text-muted-foreground">
-        Su voz es importante. Participe en encuestas, envíe propuestas y sea parte de las decisiones públicas.
+        Canales y mensajes con propósito público y claridad simbólica. Participe y haga oír su voz.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <Card>
           <CardHeader>
-            <CardTitle>Encuesta Activa: Movilidad Urbana</CardTitle>
+            <CardTitle>Consulta Activa: Movilidad Urbana</CardTitle>
             <CardDescription>¿Cuál considera que es la principal prioridad para mejorar el transporte en la ciudad?</CardDescription>
           </CardHeader>
           <CardContent>
@@ -70,7 +70,7 @@ export default function ParticipacionCiudadanaPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Buzón de Propuestas</CardTitle>
+            <CardTitle>Buzón de Propuestas Ciudadanas</CardTitle>
             <CardDescription>¿Tiene una idea para mejorar nuestra comunidad? ¡Compártala con nosotros!</CardDescription>
           </CardHeader>
           <CardContent>
@@ -85,8 +85,8 @@ export default function ParticipacionCiudadanaPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Resultados de Votaciones Públicas Anteriores</CardTitle>
-          <CardDescription>Votación sobre el "Nuevo Parque Central"</CardDescription>
+          <CardTitle>Resultados de Consultas Anteriores</CardTitle>
+          <CardDescription>Consulta sobre el "Nuevo Parque Central"</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
             <div>

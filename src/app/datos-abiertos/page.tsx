@@ -41,12 +41,12 @@ const datasets = [
     { name: "Estadísticas Demográficas", format: "CSV", size: "12.3 MB" },
 ];
 
-export default function DatosAbiertosPage() {
+export default function TransparenciaActivaPage() {
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Datos Abiertos</h1>
+      <h1 className="text-3xl font-bold text-primary">Transparencia Activa</h1>
       <p className="text-muted-foreground">
-        Explore datos a través de visualizaciones interactivas y descargue datasets para su propio análisis.
+        Acciones públicas documentadas y visibles. Explore datos a través de visualizaciones y descargue datasets.
       </p>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

@@ -16,7 +16,7 @@ const documents = [
   { id: 'LINT-005', name: 'Lineamientos Técnicos de Construcción', version: '2.4', date: '2024-06-01', type: 'Lineamiento' },
 ];
 
-export default function RepositorioDocumentalPage() {
+export default function DocumentacionModularPage() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const filteredDocuments = useMemo(() => {
@@ -30,9 +30,9 @@ export default function RepositorioDocumentalPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Repositorio Documental</h1>
+      <h1 className="text-3xl font-bold text-primary">Documentación Modular</h1>
       <p className="text-muted-foreground">
-        Acceda a la biblioteca digital de actas, minutas, lineamientos y historiales de versiones.
+        Archivos con rutas claras, accesibles y reutilizables. La memoria viva de la acción pública.
       </p>
 
       <div className="relative">

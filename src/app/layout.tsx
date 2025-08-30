@@ -5,8 +5,8 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Gobierno Abierto Oaxaca',
-  description: 'Conectando ciudadanos, transformando gobierno.',
+  title: 'Plataforma Voz Ciudadana',
+  description: 'Una estructura ética, modular y pública que amplifica la voz legítima de los ciudadanos.',
 };
 
 export default function RootLayout({

@@ -8,12 +8,12 @@ import React from "react";
 
 const navLinks = [
     { href: "/", label: "Inicio" },
-    { href: "/informacion-publica", label: "Información Pública" },
-    { href: "/datos-abiertos", label: "Datos Abiertos" },
-    { href: "/participacion-ciudadana", label: "Participación Ciudadana" },
-    { href: "/perfiles-institucionales", label: "Perfiles Institucionales" },
-    { href: "/calendario-civico", label: "Calendario Cívico" },
-    { href: "/repositorio-documental", label: "Repositorio Documental" },
+    { href: "/perfiles-institucionales", label: "Imagen Pública" },
+    { href: "/participacion-ciudadana", label: "Comunicación Ética" },
+    { href: "/repositorio-documental", label: "Documentación Modular" },
+    { href: "/informacion-publica", label: "Validación Institucional" },
+    { href: "/datos-abiertos", label: "Transparencia Activa" },
+    { href: "/calendario-civico", label: "Memoria Institucional" },
 ];
 
 const Logo = () => (
@@ -57,8 +57,8 @@ export function Header() {
     const AppName = () => (
         <div className="flex items-center gap-3 text-primary font-bold text-lg md:text-xl">
             <Logo />
-            <span className="sm:hidden">GAO</span>
-            <span className="hidden sm:inline">Gobierno Abierto Oaxaca</span>
+            <span className="sm:hidden">Voz Ciudadana</span>
+            <span className="hidden sm:inline">Plataforma Voz Ciudadana</span>
         </div>
     );
 

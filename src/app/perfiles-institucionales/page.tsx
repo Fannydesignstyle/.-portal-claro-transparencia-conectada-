@@ -167,14 +167,14 @@ const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (p
   </Card>
 );
 
-export default function PerfilesInstitucionalesPage() {
+export default function ImagenPublicaPage() {
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Perfiles Institucionales de Oaxaca</h1>
+      <h1 className="text-3xl font-bold text-primary">Imagen Pública</h1>
       <p className="text-muted-foreground">
-        Conozca la estructura de la organización y quiénes son los responsables de cada área.
+        Representación visual legítima, validada institucionalmente. Conozca la estructura y responsables.
       </p>
 
       <Card>
@@ -189,7 +189,7 @@ export default function PerfilesInstitucionalesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Organigrama Institucional (Secretarías)</CardTitle>
+          <CardTitle>Perfiles Institucionales (Secretarías)</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
           {departments.map((dept) => (

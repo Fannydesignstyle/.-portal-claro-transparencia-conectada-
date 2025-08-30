@@ -2,49 +2,50 @@ import Link from "next/link";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, BarChart3, Users, Building, CalendarDays, Archive, ArrowRight, Target, Lightbulb, CheckCircle } from "lucide-react";
+import { FileText, Users, Building, Archive, ArrowRight, Rss, ShieldCheck, HardDrive } from "lucide-react";
 
 const features = [
   {
-    title: "Información Pública",
-    description: "Contratos, presupuestos, normativas y más.",
-    icon: FileText,
-    href: "/informacion-publica",
-  },
-  {
-    title: "Datos Abiertos",
-    description: "Visualizaciones y datasets para análisis.",
-    icon: BarChart3,
-    href: "/datos-abiertos",
-  },
-  {
-    title: "Participación Ciudadana",
-    description: "Encuestas, propuestas y votaciones.",
-    icon: Users,
-    href: "/participacion-ciudadana",
-  },
-  {
-    title: "Perfiles Institucionales",
-    description: "Organigrama y directorio de responsables.",
+    title: "Imagen Pública",
+    description: "Representación visual legítima, validada institucionalmente.",
     icon: Building,
     href: "/perfiles-institucionales",
   },
   {
-    title: "Calendario Cívico",
-    description: "Audiencias públicas y sesiones informativas.",
-    icon: CalendarDays,
-    href: "/calendario-civico",
+    title: "Comunicación Ética",
+    description: "Canales y mensajes con propósito público y claridad simbólica.",
+    icon: Rss,
+    href: "/participacion-ciudadana",
   },
   {
-    title: "Repositorio Documental",
-    description: "Actas, minutas y historial de documentos.",
+    title: "Documentación Modular",
+    description: "Archivos con rutas claras, accesibles y reutilizables.",
     icon: Archive,
     href: "/repositorio-documental",
   },
+  {
+    title: "Validación Institucional",
+    description: "Verificación técnica y simbólica de cada componente.",
+    icon: ShieldCheck,
+    href: "/informacion-publica",
+  },
+  {
+    title: "Transparencia Activa",
+    description: "Acciones públicas documentadas y visibles.",
+    icon: FileText,
+    href: "/datos-abiertos",
+  },
+  {
+      title: "Memoria Institucional",
+      description: "Historial y seguimiento de la actividad pública.",
+      icon: HardDrive,
+      href: "/calendario-civico",
+  }
 ];
 
 export default function Home() {
@@ -55,15 +56,15 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 h-20 bg-yellow-100/20"></div>
         <div className="relative z-10">
             <h1 className="text-4xl md:text-5xl font-bold text-primary">
-              Gobierno Abierto Oaxaca
+              Plataforma Voz Ciudadana
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-              Conectando ciudadanos, transformando gobierno.
+              Una estructura ética, modular y pública que amplifica la voz legítima de los ciudadanos.
             </p>
             <div className="mt-8">
                 <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
                     <Link href="#features">
-                        Explorar Plataforma
+                        Explorar Módulos
                         <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                 </Button>
@@ -73,47 +74,14 @@ export default function Home() {
 
       <section id="about" className="space-y-12">
         <div className="text-center">
-            <h2 className="text-3xl font-bold text-primary">Nuestra Misión</h2>
-            <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">Democratizar la información y fortalecer el vínculo entre los funcionarios y la ciudadanía a través de la tecnología.</p>
+            <h2 className="text-3xl font-bold text-primary">Manifiesto Institucional</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card>
-                <CardHeader className="items-center text-center">
-                    <Target className="h-10 w-10 text-primary mb-2" />
-                    <CardTitle>Objetivos</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="space-y-2 text-muted-foreground list-disc list-inside">
-                        <li>Centralizar la información pública.</li>
-                        <li>Facilitar la rendición de cuentas.</li>
-                        <li>Fomentar la participación ciudadana.</li>
-                        <li>Optimizar la gestión documental.</li>
-                    </ul>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="items-center text-center">
-                    <Lightbulb className="h-10 w-10 text-primary mb-2" />
-                    <CardTitle>Propuesta de Valor</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="space-y-2 text-muted-foreground list-disc list-inside">
-                        <li>Herramientas digitales modernas.</li>
-                        <li>Perfiles institucionales unificados.</li>
-                        <li>Canales de comunicación directos.</li>
-                        <li>Transparencia y acceso abierto.</li>
-                    </ul>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader className="items-center text-center">
-                    <CheckCircle className="h-10 w-10 text-primary mb-2" />
-                    <CardTitle>Manifiesto</CardTitle>
-                </CardHeader>
-                <CardContent>
-                     <p className="text-muted-foreground">
-                        Creemos en un gobierno abierto, donde la tecnología sirve como puente para construir confianza. Nos comprometemos a la innovación, la integridad y la colaboración como pilares de una gestión pública transparente y eficiente.
-                    </p>
+        <div className="grid grid-cols-1">
+            <Card className="col-span-1">
+                <CardContent className="p-8 text-center">
+                     <blockquote className="text-xl italic text-muted-foreground border-l-4 border-accent pl-6">
+                        "La Voz Ciudadana no se delega ni se representa: se documenta, se valida y se comunica con dignidad. Esta plataforma nace para sostener la transparencia como acto cotidiano, donde cada componente técnico responde a una necesidad pública, y cada imagen institucional refleja una verdad compartida. Aquí, la documentación no es archivo: es memoria viva. La comunicación no es difusión: es presencia legítima. La Voz Ciudadana es modular, ética y poética. Y su propósito es claro: dignificar la acción pública desde la raíz."
+                    </blockquote>
                 </CardContent>
             </Card>
         </div>
@@ -121,8 +89,8 @@ export default function Home() {
 
       <section id="features">
         <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-primary">Módulos de la Plataforma</h2>
-            <p className="mt-2 text-muted-foreground">Explora las herramientas y recursos que hemos construido para ti.</p>
+            <h2 className="text-3xl font-bold text-primary">Derivaciones Modulares</h2>
+            <p className="mt-2 text-muted-foreground">Cada módulo responde a un propósito claro y a una necesidad pública.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature) => (

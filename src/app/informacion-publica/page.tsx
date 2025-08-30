@@ -25,12 +25,12 @@ const regulations = [
     { id: 'N003', name: 'Decreto de Contratación Pública', published: '2022-11-01', status: 'Vigente' },
 ];
 
-export default function InformacionPublicaPage() {
+export default function ValidacionInstitucionalPage() {
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Información Pública</h1>
+      <h1 className="text-3xl font-bold text-primary">Validación Institucional</h1>
       <p className="text-muted-foreground max-w-3xl">
-        Consulte la información clave sobre el funcionamiento y la gestión de la entidad. Navegue por las pestañas para ver contratos, presupuestos y normativas vigentes.
+        Verificación técnica y simbólica de cada componente. Consulte contratos, presupuestos y normativas para validar la gestión.
       </p>
 
       <Card>

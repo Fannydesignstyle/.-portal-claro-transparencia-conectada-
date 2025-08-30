@@ -14,16 +14,16 @@ const events = [
   { date: new Date(2024, 7, 5), title: "Taller de Participación Ciudadana", time: "17:00 - 19:00", location: "Online (Zoom)" },
 ];
 
-export default function CalendarioCivicoPage() {
+export default function MemoriaInstitucionalPage() {
   const [date, setDate] = useState<Date | undefined>(new Date(2024, 6, 22));
 
   const selectedDayEvents = events.filter(event => date && isSameDay(event.date, date));
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Calendario Cívico</h1>
+      <h1 className="text-3xl font-bold text-primary">Memoria Institucional</h1>
       <p className="text-muted-foreground">
-        Participe en audiencias públicas, sesiones informativas y otros eventos de interés.
+        Historial y seguimiento de la actividad pública. Participe en audiencias, sesiones y otros eventos.
       </p>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
