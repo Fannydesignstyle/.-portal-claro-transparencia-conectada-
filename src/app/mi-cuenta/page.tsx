@@ -9,8 +9,8 @@ import { Avatar } from "@/components/ui/avatar";
 import { Upload, Lock, FileText, Edit, Save, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useRef, useContext } from "react";
-import { ProfileContext } from "@/context/ProfileContext";
+import { useState, useRef, useContext, useEffect } from "react";
+import { ProfileContext, type Profile } from "@/context/ProfileContext";
 
 export default function MiCuentaPage() {
     const { toast } = useToast();
@@ -18,7 +18,11 @@ export default function MiCuentaPage() {
     const [qrKey, setQrKey] = useState(Date.now());
     
     const { profile, setProfile } = useContext(ProfileContext);
-    const [avatarPreview, setAvatarPreview] = useState(profile.avatar);
+    const [localProfile, setLocalProfile] = useState<Profile>(profile);
+
+    useEffect(() => {
+        setLocalProfile(profile);
+    }, [profile]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -32,6 +36,7 @@ export default function MiCuentaPage() {
     };
 
     const handleProfileSave = () => {
+        setProfile(localProfile);
         toast({
             title: "Perfil Actualizado",
             description: "Su información ha sido guardada correctamente.",
@@ -41,6 +46,11 @@ export default function MiCuentaPage() {
     const handleFileSelectClick = () => {
         fileInputRef.current?.click();
     };
+    
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        setLocalProfile(prev => ({ ...prev, [id]: value }));
+    };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -48,11 +58,10 @@ export default function MiCuentaPage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const newAvatarUrl = reader.result as string;
-                setAvatarPreview(newAvatarUrl);
-                setProfile({ ...profile, avatar: newAvatarUrl });
+                setLocalProfile(prev => ({ ...prev, avatar: newAvatarUrl }));
                 toast({
                     title: "Foto Actualizada",
-                    description: "La nueva foto de perfil está lista.",
+                    description: "La nueva foto de perfil está lista para ser guardada.",
                 });
             };
             reader.readAsDataURL(file);
@@ -128,26 +137,26 @@ export default function MiCuentaPage() {
                 <CardContent className="space-y-4">
                     <div className="flex flex-col items-center space-y-4">
                          <Avatar className="w-24 h-24 ring-4 ring-primary/20">
-                            <Image src={avatarPreview} alt="Estefanía Pérez Vázquez" width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full object-cover" />
+                            <Image src={localProfile.avatar} alt={localProfile.name} width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full object-cover" />
                         </Avatar>
                         <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar Foto</Button>
                         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
                     </div>
                    <div className="space-y-2">
                         <Label htmlFor="name">Nombre Completo</Label>
-                        <Input id="name" defaultValue="Estefanía Pérez Vázquez" />
+                        <Input id="name" value={localProfile.name} onChange={handleInputChange} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="title">Cargo</Label>
-                        <Input id="title" defaultValue="Directora y Fundadora" />
+                        <Input id="title" value={localProfile.title} onChange={handleInputChange} />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="email">Correo Electrónico</Label>
-                        <Input id="email" type="email" defaultValue="direccion@ptic-oaxaca.org" />
+                        <Input id="email" type="email" value={localProfile.email} onChange={handleInputChange} />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="phone">Teléfono</Label>
-                        <Input id="phone" type="tel" defaultValue="+52 951 123 4567" />
+                        <Input id="phone" type="tel" value={localProfile.phone} onChange={handleInputChange} />
                     </div>
                     <Button className="w-full" onClick={handleProfileSave}><Save className="mr-2" />Guardar Cambios</Button>
                 </CardContent>
@@ -185,8 +194,8 @@ export default function MiCuentaPage() {
                     <div className="p-6 border-2 border-dashed rounded-lg text-center">
                         <Upload className="mx-auto h-12 w-12 text-muted-foreground"/>
                         <p className="mt-2 text-sm text-muted-foreground">Arrastre y suelte archivos aquí o haga clic para seleccionar</p>
-                        <Input id="file-upload" type="file" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
-                         <Button variant="outline" className="mt-4" onClick={handleFileSelectClick}>
+                        <Input id="file-upload" type="file" className="hidden" />
+                         <Button variant="outline" className="mt-4" onClick={() => {}}>
                             <FileText className="mr-2"/>
                             Seleccionar Archivos
                         </Button>
@@ -219,3 +228,5 @@ export default function MiCuentaPage() {
     </div>
   );
 }
+
+    
