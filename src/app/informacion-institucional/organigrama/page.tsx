@@ -124,6 +124,9 @@ const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: ()
     return (
         <Dialog open={true} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-lg p-0 bg-transparent border-none shadow-none">
+                <DialogHeader className="sr-only">
+                    <DialogTitle>Ficha Institucional de {profile.name}</DialogTitle>
+                </DialogHeader>
                 <div className="space-y-4">
                     <div ref={cardRef} className="bg-card text-card-foreground rounded-lg overflow-hidden">
                         <div className="bg-primary text-primary-foreground px-6 py-3 flex justify-between items-center">
@@ -281,3 +284,5 @@ export default function ImagenPublicaPage() {
     </div>
   );
 }
+
+    
