@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import React from "react";
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const navLinks = [
     { href: "/", label: "Inicio" },
@@ -52,6 +54,7 @@ const Logo = () => (
 
 export function Header() {
     const isMobile = useIsMobile();
+    const pathname = usePathname();
     const [isOpen, setIsOpen] = React.useState(false);
 
     const AppName = () => (
@@ -63,7 +66,7 @@ export function Header() {
     );
 
     return (
-        <header className="bg-card shadow-md sticky top-0 z-50">
+        <header className="bg-card shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center h-20">
                     <Link href="/">
@@ -90,14 +93,18 @@ export function Header() {
                                         <SheetClose asChild key={link.href}>
                                             <Link
                                                 href={link.href}
-                                                className="text-lg font-medium text-foreground hover:text-primary transition-colors"
+                                                className={cn("text-lg font-medium text-foreground hover:text-primary transition-colors", {
+                                                    "text-primary": pathname === link.href
+                                                })}
                                             >
                                                 {link.label}
                                             </Link>
                                         </SheetClose>
                                     ))}
                                     <SheetClose asChild>
-                                        <Link href="/mi-cuenta" className="text-lg font-medium text-foreground hover:text-primary transition-colors pt-4 border-t border-border">
+                                        <Link href="/mi-cuenta" className={cn("text-lg font-medium text-foreground hover:text-primary transition-colors pt-4 border-t border-border", {
+                                            "text-primary": pathname === "/mi-cuenta"
+                                        })}>
                                             <UserCircle className="inline-block mr-2 h-5 w-5" />
                                             Mi Cuenta
                                         </Link>
@@ -107,17 +114,17 @@ export function Header() {
                             </SheetContent>
                         </Sheet>
                     ) : (
-                        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+                        <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
                             {navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className="text-foreground/80 hover:text-primary transition-colors"
-                                >
-                                    {link.label}
-                                </Link>
+                                <Button asChild variant="link" className={cn("text-muted-foreground hover:text-primary", {
+                                    "text-primary font-semibold": pathname === link.href
+                                })} key={link.href}>
+                                    <Link href={link.href}>
+                                        {link.label}
+                                    </Link>
+                                </Button>
                             ))}
-                             <Button asChild variant="outline" size="sm">
+                             <Button asChild variant="ghost" className="ml-4">
                                 <Link href="/mi-cuenta">
                                     <UserCircle className="mr-2" />
                                     Mi Cuenta

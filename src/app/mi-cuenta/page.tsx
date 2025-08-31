@@ -1,12 +1,11 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
@@ -178,7 +177,7 @@ export default function MiCuentaPage() {
                 <h1 className="text-3xl font-bold text-primary">Panel Administrativo</h1>
                 <p className="text-muted-foreground">Gestione su perfil, documentos y reportes.</p>
             </div>
-            <Button onClick={handleLogout}>Cerrar Sesión</Button>
+            <Button onClick={handleLogout} variant="outline">Cerrar Sesión</Button>
         </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -188,12 +187,16 @@ export default function MiCuentaPage() {
                 <CardHeader>
                     <CardTitle>Mi Perfil Institucional</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-6">
                     <div className="flex flex-col items-center space-y-4">
-                         <Avatar className="w-24 h-24 ring-4 ring-primary/20">
+                         <Avatar className="w-24 h-24 ring-4 ring-primary/10">
                             <Image src={localProfile.avatar} alt={localProfile.name} width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full object-cover" />
+                             <AvatarFallback>{localProfile.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar Foto</Button>
+                        <div className="flex gap-2">
+                            <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar</Button>
+                            <Button variant="ghost" size="sm" onClick={() => setLocalProfile(prev => ({...prev, avatar: ''}))}><Trash2 className="mr-2"/>Quitar</Button>
+                        </div>
                         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
                     </div>
                    <div className="space-y-2">
@@ -221,15 +224,17 @@ export default function MiCuentaPage() {
                     <CardDescription>Este QR enlaza a su perfil público.</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center">
-                    <Image 
-                        key={qrKey}
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`http://localhost:3000/perfiles-institucionales#${profile.id}`)}&r=${qrKey}`} 
-                        alt="QR code"
-                        width={150}
-                        height={150}
-                        className="mb-4"
-                    />
-                    <Button variant="secondary" className="w-full" onClick={handleRegenerateQr}>
+                    <div className="p-4 border rounded-md">
+                        <Image 
+                            key={qrKey}
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`http://localhost:3000/perfiles-institucionales#${profile.id}`)}&r=${qrKey}`} 
+                            alt="QR code"
+                            width={150}
+                            height={150}
+                            className="mb-4"
+                        />
+                    </div>
+                    <Button variant="secondary" className="w-full mt-4" onClick={handleRegenerateQr}>
                         <RefreshCw className="mr-2"/>
                         Volver a Generar QR
                     </Button>
@@ -245,7 +250,7 @@ export default function MiCuentaPage() {
                     <CardDescription>Suba y administre sus archivos públicos.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <div className="p-6 border-2 border-dashed rounded-lg text-center">
+                    <div className="p-6 border-2 border-dashed rounded-lg text-center flex flex-col items-center">
                         <Upload className="mx-auto h-12 w-12 text-muted-foreground"/>
                         <p className="mt-2 text-sm text-muted-foreground">Arrastre y suelte archivos aquí o haga clic para seleccionar</p>
                         <Input id="file-upload" type="file" className="hidden" />
@@ -258,19 +263,25 @@ export default function MiCuentaPage() {
                     <div>
                         <h3 className="text-lg font-semibold text-primary mb-4">Mis Documentos Subidos</h3>
                         <ul className="space-y-3">
-                            <li className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
+                            <li className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
                                 <div>
                                     <p className="font-medium">Reporte_Gestion_Q3_2025.pdf</p>
                                     <p className="text-sm text-muted-foreground">Subido: 30 de Septiembre, 2025</p>
                                 </div>
-                                <Button variant="ghost" size="icon" className="text-destructive"><Edit className="h-4 w-4"/></Button>
+                                <div className="flex items-center">
+                                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                                    <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="h-4 w-4"/></Button>
+                                </div>
                             </li>
-                             <li className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
+                             <li className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
                                 <div>
                                     <p className="font-medium">Plan_Operativo_Anual_2026_Prop.docx</p>
                                     <p className="text-sm text-muted-foreground">Subido: 15 de Agosto, 2025</p>
                                 </div>
-                                <Button variant="ghost" size="icon" className="text-destructive"><Edit className="h-4 w-4"/></Button>
+                                 <div className="flex items-center">
+                                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                                    <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="h-4 w-4"/></Button>
+                                </div>
                             </li>
                         </ul>
                     </div>

@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Users, Building, Archive, ArrowRight, Rss, ShieldCheck, HardDrive } from "lucide-react";
+import { FileText, Building, Archive, ArrowRight, Rss, ShieldCheck, HardDrive } from "lucide-react";
 
 const features = [
   {
@@ -51,9 +51,8 @@ const features = [
 export default function Home() {
   return (
     <div className="space-y-16">
-      <section className="relative text-center bg-card p-10 rounded-lg shadow-sm overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-20 bg-pink-100/30"></div>
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-yellow-100/20"></div>
+      <section className="relative text-center bg-card p-10 py-16 rounded-lg shadow-sm overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/10"></div>
         <div className="relative z-10">
             <h1 className="text-4xl md:text-5xl font-bold text-primary">
               Plataforma Voz Ciudadana
@@ -72,19 +71,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="space-y-12">
+      <section id="about" className="space-y-8">
         <div className="text-center">
             <h2 className="text-3xl font-bold text-primary">Manifiesto Institucional</h2>
         </div>
-        <div className="grid grid-cols-1">
-            <Card className="col-span-1">
-                <CardContent className="p-8 text-center">
-                     <blockquote className="text-xl italic text-muted-foreground border-l-4 border-accent pl-6">
-                        "La Voz Ciudadana no se delega ni se representa: se documenta, se valida y se comunica con dignidad. Esta plataforma nace para sostener la transparencia como acto cotidiano, donde cada componente técnico responde a una necesidad pública, y cada imagen institucional refleja una verdad compartida. Aquí, la documentación no es archivo: es memoria viva. La comunicación no es difusión: es presencia legítima. La Voz Ciudadana es modular, ética y poética. Y su propósito es claro: dignificar la acción pública desde la raíz."
-                    </blockquote>
-                </CardContent>
-            </Card>
-        </div>
+        <Card className="col-span-1 bg-transparent border-0 shadow-none">
+            <CardContent className="p-8 text-center">
+                 <blockquote className="text-xl italic text-muted-foreground border-l-4 border-accent pl-6">
+                    "La Voz Ciudadana no se delega ni se representa: se documenta, se valida y se comunica con dignidad. Esta plataforma nace para sostener la transparencia como acto cotidiano, donde cada componente técnico responde a una necesidad pública, y cada imagen institucional refleja una verdad compartida. Aquí, la documentación no es archivo: es memoria viva. La comunicación no es difusión: es presencia legítima. La Voz Ciudadana es modular, ética y poética. Y su propósito es claro: dignificar la acción pública desde la raíz."
+                </blockquote>
+            </CardContent>
+        </Card>
       </section>
 
       <section id="features">
@@ -95,10 +92,12 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature) => (
             <Link href={feature.href} key={feature.title} className="group">
-              <Card className="h-full hover:shadow-lg hover:border-primary transition-all duration-300">
+              <Card className="h-full hover:shadow-lg hover:border-accent transition-all duration-300 transform hover:-translate-y-1">
                 <CardHeader className="flex flex-row items-center gap-4">
-                  <feature.icon className="w-8 h-8 text-primary" />
-                  <CardTitle>{feature.title}</CardTitle>
+                  <div className="p-3 bg-accent/10 rounded-lg">
+                    <feature.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <CardTitle className="text-primary">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{feature.description}</p>

@@ -80,7 +80,7 @@ export default function TransparenciaActivaPage() {
                 <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} />
                 <YAxis />
                 <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
-                <Line type="monotone" dataKey="spending" stroke="var(--color-spending)" strokeWidth={2} dot={true} />
+                <Line type="monotone" dataKey="spending" stroke="var(--color-spending)" strokeWidth={3} dot={{ r: 5, fill: "var(--color-spending)" }} activeDot={{ r: 7 }} />
               </LineChart>
             </ChartContainer>
           </CardContent>
@@ -95,12 +95,12 @@ export default function TransparenciaActivaPage() {
         <CardContent>
             <ul className="space-y-4">
                 {datasets.map(dataset => (
-                    <li key={dataset.name} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
+                    <li key={dataset.name} className="flex items-center justify-between p-4 bg-card border rounded-lg hover:shadow-md transition-shadow">
                         <div>
                             <p className="font-semibold text-primary">{dataset.name}</p>
                             <p className="text-sm text-muted-foreground">{dataset.format} - {dataset.size}</p>
                         </div>
-                        <Button>
+                        <Button variant="outline">
                             <FileDown className="mr-2 h-4 w-4" />
                             Descargar
                         </Button>
