@@ -132,34 +132,36 @@ const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: ()
 
 
 const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (profile: Profile) => void; }) => (
-  <Card id={profile.id} className="text-center p-4 flex flex-col items-center shadow-sm hover:shadow-lg transition-shadow">
-    <Avatar className="w-20 h-20 mb-4 ring-2 ring-primary/20">
-      <Image src={profile.avatar} alt={profile.name} width={80} height={80} data-ai-hint={profile.dataAiHint} className="rounded-full object-cover" />
+  <div id={profile.id} className="flex items-center gap-6 p-6 border-b">
+    <Avatar className="w-24 h-24 ring-2 ring-primary/10">
+      <Image src={profile.avatar} alt={profile.name} width={96} height={96} data-ai-hint={profile.dataAiHint} className="rounded-full object-cover" />
     </Avatar>
-    <p className="font-bold text-lg text-primary">{profile.name}</p>
-    <p className="text-sm text-muted-foreground">{profile.title}</p>
-    <p className="text-xs text-muted-foreground mt-1 bg-secondary/50 px-2 py-1 rounded-full">{profile.department}</p>
-    <div className="mt-4 space-y-2 text-sm">
-      <a href={`mailto:${profile.email}`} className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-        <Mail className="h-4 w-4" />
-        <span>{profile.email}</span>
-      </a>
-      <a href={`tel:${profile.phone}`} className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-        <Phone className="h-4 w-4" />
-        <span>{profile.phone}</span>
-      </a>
-      {profile.website && (
-         <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-            <Globe className="h-4 w-4" />
-            <span>{profile.website}</span>
-        </a>
-      )}
+    <div className="flex-grow">
+        <p className="font-bold text-xl text-primary">{profile.name}</p>
+        <p className="text-md text-muted-foreground">{profile.title}</p>
+        <p className="text-sm text-muted-foreground mt-1 bg-secondary/50 px-2 py-1 rounded-full inline-block">{profile.department}</p>
+        <div className="mt-4 space-y-2 text-sm">
+          <a href={`mailto:${profile.email}`} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+            <Mail className="h-4 w-4" />
+            <span>{profile.email}</span>
+          </a>
+          <a href={`tel:${profile.phone}`} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+            <Phone className="h-4 w-4" />
+            <span>{profile.phone}</span>
+          </a>
+          {profile.website && (
+             <a href={`https://${profile.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Globe className="h-4 w-4" />
+                <span>{profile.website}</span>
+            </a>
+          )}
+        </div>
     </div>
-    <Button variant="outline" size="sm" className="mt-4" onClick={() => onShowCard(profile)}>
+    <Button variant="outline" size="sm" onClick={() => onShowCard(profile)}>
         <QrCode className="mr-2 h-4 w-4"/>
         Ver Ficha
     </Button>
-  </Card>
+  </div>
 );
 
 export default function ImagenPublicaPage() {
@@ -199,11 +201,11 @@ export default function ImagenPublicaPage() {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
+      <div className="border rounded-lg bg-card">
         {filteredProfiles.length > 0 ? filteredProfiles.map((profile) => (
             <ProfileCard key={profile.id} profile={profile} onShowCard={setSelectedProfile} />
         )) : (
-            <p className="text-center text-muted-foreground col-span-full">
+            <p className="text-center text-muted-foreground p-10">
                 No se encontraron perfiles que coincidan con la búsqueda.
             </p>
         )}
