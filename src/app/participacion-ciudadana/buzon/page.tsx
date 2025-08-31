@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Loader, Sparkles, AlertTriangle, BrainCircuit } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { AnalyzeProposalOutput } from "@/ai/flows/analyze-proposal-flow";
+import type { AnalyzeProposalOutput } from "@/ai/schemas/analyze-proposal-schemas";
 import { analyzeProposal } from "@/ai/flows/analyze-proposal-flow";
 
 export default function BuzonDePropuestasPage() {
