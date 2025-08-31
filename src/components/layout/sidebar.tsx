@@ -36,7 +36,7 @@ const Logo = () => (
         viewBox="0 0 28 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="text-sidebar-primary"
+        className="text-primary"
     >
         <path
             d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z"
@@ -113,7 +113,7 @@ export function Sidebar() {
         <aside className="hidden lg:flex flex-col w-64 h-screen bg-sidebar text-sidebar-foreground sticky top-0 border-r border-sidebar-border">
             <div className="flex items-center gap-3 h-16 px-6 border-b border-sidebar-border">
                 <Logo />
-                <h1 className="font-bold text-lg text-sidebar-primary">Transparencia Conectada</h1>
+                <h1 className="font-bold text-lg text-primary">Transparencia Conectada</h1>
             </div>
 
             <nav className="flex-1 px-4 py-6 space-y-2">
