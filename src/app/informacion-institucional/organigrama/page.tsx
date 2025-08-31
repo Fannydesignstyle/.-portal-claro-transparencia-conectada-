@@ -51,7 +51,7 @@ const departments: { name: string; lead: Profile; }[] = [
       avatar: "https://picsum.photos/100/100?q=2",
       email: "finanzas@oaxaca.gob.mx",
       phone: "+52 951 987 6543",
-      dataAiHint: "man portrait",
+      dataAiHint: "man portrait professional",
       department: "Secretaría de Finanzas"
     },
   },
@@ -284,5 +284,3 @@ export default function ImagenPublicaPage() {
     </div>
   );
 }
-
-    
