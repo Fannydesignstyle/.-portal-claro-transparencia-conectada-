@@ -1,22 +1,7 @@
 "use client";
 import Link from "next/link";
-import { Menu, UserCircle } from "lucide-react";
+import { UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
-import React from "react";
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-
-const navLinks = [
-    { href: "/", label: "Inicio" },
-    { href: "/perfiles-institucionales", label: "Imagen Pública" },
-    { href: "/participacion-ciudadana", label: "Comunicación Ética" },
-    { href: "/repositorio-documental", label: "Documentación Modular" },
-    { href: "/informacion-publica", label: "Validación Institucional" },
-    { href: "/datos-abiertos", label: "Transparencia Activa" },
-    { href: "/calendario-civico", label: "Memoria Institucional" },
-];
 
 const Logo = () => (
     <svg
@@ -51,20 +36,14 @@ const Logo = () => (
     </svg>
 );
 
+const AppName = () => (
+    <div className="flex items-center gap-3 text-primary font-bold text-lg md:text-xl">
+        <Logo />
+        <span>Plataforma Voz Ciudadana</span>
+    </div>
+);
 
 export function Header() {
-    const isMobile = useIsMobile();
-    const pathname = usePathname();
-    const [isOpen, setIsOpen] = React.useState(false);
-
-    const AppName = () => (
-        <div className="flex items-center gap-3 text-primary font-bold text-lg md:text-xl">
-            <Logo />
-            <span className="sm:hidden">Voz Ciudadana</span>
-            <span className="hidden sm:inline">Plataforma Voz Ciudadana</span>
-        </div>
-    );
-
     return (
         <header className="bg-card shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4">
@@ -73,65 +52,14 @@ export function Header() {
                         <AppName />
                     </Link>
                     
-                    {isMobile ? (
-                        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                            <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                    <Menu />
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-card">
-                                <SheetHeader className="p-4 pb-0">
-                                  <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
-                                </SheetHeader>
-                                <div className="p-4">
-                                <Link href="/" className="mb-8" onClick={() => setIsOpen(false)}>
-                                    <AppName />
-                                </Link>
-                                <nav className="flex flex-col gap-4 mt-8">
-                                    {navLinks.map((link) => (
-                                        <SheetClose asChild key={link.href}>
-                                            <Link
-                                                href={link.href}
-                                                className={cn("text-lg font-medium text-foreground hover:text-primary transition-colors", {
-                                                    "text-primary": pathname === link.href
-                                                })}
-                                            >
-                                                {link.label}
-                                            </Link>
-                                        </SheetClose>
-                                    ))}
-                                    <SheetClose asChild>
-                                        <Link href="/mi-cuenta" className={cn("text-lg font-medium text-foreground hover:text-primary transition-colors pt-4 border-t border-border", {
-                                            "text-primary": pathname === "/mi-cuenta"
-                                        })}>
-                                            <UserCircle className="inline-block mr-2 h-5 w-5" />
-                                            Mi Cuenta
-                                        </Link>
-                                    </SheetClose>
-                                </nav>
-                                </div>
-                            </SheetContent>
-                        </Sheet>
-                    ) : (
-                        <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
-                            {navLinks.map((link) => (
-                                <Button asChild variant="link" className={cn("text-muted-foreground hover:text-primary", {
-                                    "text-primary font-semibold": pathname === link.href
-                                })} key={link.href}>
-                                    <Link href={link.href}>
-                                        {link.label}
-                                    </Link>
-                                </Button>
-                            ))}
-                             <Button asChild variant="ghost" className="ml-4">
-                                <Link href="/mi-cuenta">
-                                    <UserCircle className="mr-2" />
-                                    Mi Cuenta
-                                </Link>
-                            </Button>
-                        </nav>
-                    )}
+                    <nav className="flex items-center gap-2 text-sm font-medium">
+                         <Button asChild variant="ghost">
+                            <Link href="/mi-cuenta">
+                                <UserCircle className="mr-2" />
+                                Mi Cuenta
+                            </Link>
+                        </Button>
+                    </nav>
                 </div>
             </div>
         </header>
