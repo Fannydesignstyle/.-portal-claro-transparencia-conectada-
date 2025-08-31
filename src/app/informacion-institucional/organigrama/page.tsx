@@ -4,13 +4,16 @@
 import React, { useState, useRef, useContext, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
-import { Mail, Phone, QrCode, Download, Building, Globe, Search } from "lucide-react";
+import { Mail, Phone, QrCode, Download, Building, Globe, Search, User, Briefcase, MapPin, Share2, Sparkles, Goal, Lightbulb, Loader } from "lucide-react";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import html2canvas from 'html2canvas';
 import { ProfileContext, type Profile } from '@/context/ProfileContext';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+
 
 const foundingPartner: Profile = {
     id: "fanny-design-style",
@@ -82,49 +85,107 @@ const departments: { name: string; lead: Profile; }[] = [
 
 const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: () => void }) => {
     const cardRef = useRef<HTMLDivElement>(null);
+    const { toast } = useToast();
+    const [isDownloading, setIsDownloading] = useState(false);
 
     const downloadCard = () => {
         if (cardRef.current) {
-            html2canvas(cardRef.current, { useCORS: true }).then(canvas => {
+            setIsDownloading(true);
+            toast({ title: "Generando Ficha...", description: "Por favor espere un momento." });
+            html2canvas(cardRef.current, {
+                useCORS: true,
+                scale: 2, // Aumentar la resolución para mejor calidad
+                backgroundColor: null, 
+            }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `ficha-institucional-${profile.id}.png`;
                 link.href = canvas.toDataURL("image/png");
                 link.click();
+                setIsDownloading(false);
+                toast({ title: "¡Descarga Completa!", description: "La ficha se ha guardado en su dispositivo." });
+            }).catch(err => {
+                console.error("Error al generar la imagen:", err);
+                setIsDownloading(false);
+                toast({ title: "Error de Descarga", description: "No se pudo generar la ficha. Intente de nuevo.", variant: "destructive" });
             });
         }
     };
+    
+    const handleShare = () => {
+        toast({
+            title: "Función no disponible",
+            description: "La opción de compartir se implementará próximamente.",
+        });
+    }
 
     const profileUrl = typeof window !== 'undefined' ? `${window.location.origin}/perfiles-institucionales#${profile.id}` : '';
+    const location = "Oaxaca de Juárez, OAX, México"; // Hardcoded location as per image
 
     return (
         <Dialog open={true} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Ficha Institucional</DialogTitle>
-                </DialogHeader>
-                <div ref={cardRef} className="bg-card p-6 border rounded-lg">
-                    <div className="flex flex-col items-center text-center">
-                        <Image src={profile.avatar} alt={profile.name} width={96} height={96} data-ai-hint={profile.dataAiHint} className="rounded-full ring-2 ring-primary mb-4" />
-                        <h3 className="text-xl font-bold text-primary">{profile.name}</h3>
-                        <p className="text-muted-foreground">{profile.title}</p>
-                        <p className="text-sm text-muted-foreground">{profile.department}</p>
+            <DialogContent className="sm:max-w-lg p-0 bg-transparent border-none shadow-none">
+                <div className="space-y-4">
+                    <div ref={cardRef} className="bg-card text-card-foreground rounded-lg overflow-hidden">
+                        <div className="bg-primary text-primary-foreground px-6 py-3 flex justify-between items-center">
+                            <h3 className="font-bold text-lg">Ficha Institucional</h3>
+                            <span className="text-sm font-semibold tracking-wider">TC</span>
+                        </div>
+                        <div className="p-6 pb-4">
+                            <div className="flex items-start gap-4 mb-4">
+                                <Image src={profile.avatar} alt={profile.name} width={64} height={64} data-ai-hint={profile.dataAiHint} className="rounded-md ring-2 ring-background mt-1" />
+                                <div className="space-y-1.5 text-sm">
+                                    <h4 className="font-bold text-base text-primary">{profile.name}</h4>
+                                    <p><strong className="font-medium">Cargo:</strong> {profile.title}</p>
+                                    <p><strong className="font-medium">Dependencia:</strong> {profile.department}</p>
+                                    <p><strong className="font-medium">Ubicación:</strong> {location}</p>
+                                </div>
+                            </div>
+                            <hr className="my-4 border-border" />
+                            <div className="space-y-4 text-sm">
+                                <div>
+                                    <h5 className="font-bold text-primary mb-2 flex items-center gap-2"><Sparkles className="text-accent" /> Perfil Profesional</h5>
+                                    <p className="text-muted-foreground">
+                                        Diseñadora estratégica y gestora de innovación cívica. Fundadora de Fanny Design Style y creadora de Transparencia Conectada, una plataforma que impulsa la transparencia institucional desde la ciudadanía.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold text-primary mb-2 flex items-center gap-2"><Lightbulb className="text-accent" /> Habilidades Destacadas</h5>
+                                    <div className="flex flex-wrap gap-2">
+                                        <Badge variant="outline">Diseño institucional</Badge>
+                                        <Badge variant="outline">Branding profesional</Badge>
+                                        <Badge variant="outline">Narrativas visuales</Badge>
+                                        <Badge variant="outline">Integración de herramientas</Badge>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold text-primary mb-2 flex items-center gap-2"><Goal className="text-accent" /> Objetivos Actuales</h5>
+                                    <p className="text-muted-foreground">
+                                        Refinar la estructura visual de la plataforma, integrar métricas en tiempo real con Azure Application Insights y empoderar equipos institucionales con herramientas de autogestión.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-secondary/30 px-6 py-3 flex justify-between items-center mt-4">
+                             <span className="text-xs text-muted-foreground">Transparencia Conectada - Agosto 2025</span>
+                             <Image 
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=40x40&data=${encodeURIComponent(profileUrl)}&qzone=1`} 
+                                alt={`QR code for ${profile.name}`}
+                                width={40}
+                                height={40}
+                            />
+                        </div>
                     </div>
-                    <div className="mt-6 flex justify-center">
-                        <Image 
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(profileUrl)}`} 
-                            alt={`QR code for ${profile.name}`}
-                            width={150}
-                            height={150}
-                        />
-                    </div>
-                    <div className="mt-4 text-center text-xs text-muted-foreground">
-                        Escanea para ver el perfil completo
+                     <div className="flex gap-2">
+                        <Button onClick={downloadCard} className="w-full" disabled={isDownloading}>
+                            {isDownloading ? <Loader className="animate-spin" /> : <Download />}
+                            Descargar
+                        </Button>
+                        <Button onClick={handleShare} className="w-full" variant="outline">
+                           <Share2 />
+                           Compartir
+                        </Button>
                     </div>
                 </div>
-                 <Button onClick={downloadCard} className="w-full mt-4">
-                    <Download className="mr-2 h-4 w-4" />
-                    Descargar Ficha
-                </Button>
             </DialogContent>
         </Dialog>
     );
@@ -176,7 +237,7 @@ export default function ImagenPublicaPage() {
   const filteredProfiles = useMemo(() => {
     if (!searchTerm) return allProfiles;
     return allProfiles.filter(p =>
-      p.department && p.department.toLowerCase().includes(searchTerm.toLowerCase())
+      p && p.department && p.department.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm, allProfiles]);
 
@@ -203,7 +264,7 @@ export default function ImagenPublicaPage() {
       
       <div className="border rounded-lg bg-card">
         {filteredProfiles.length > 0 ? filteredProfiles.map((profile) => (
-            <ProfileCard key={profile.id} profile={profile} onShowCard={setSelectedProfile} />
+            profile ? <ProfileCard key={profile.id} profile={profile} onShowCard={setSelectedProfile} /> : null
         )) : (
             <p className="text-center text-muted-foreground p-10">
                 No se encontraron perfiles que coincidan con la búsqueda.
@@ -220,4 +281,3 @@ export default function ImagenPublicaPage() {
     </div>
   );
 }
-

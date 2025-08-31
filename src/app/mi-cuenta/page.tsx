@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,16 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 const ADMIN_USERNAME = "estefania"; // Cambia "admin" por tu usuario deseado
 const ADMIN_PASSWORD = "transparencia conectada"; // Cambia "password" por tu contraseña deseada
 // --------------------
+
+const FullScreenLayout = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className="w-full min-h-screen flex flex-col">
+            <main className="flex-grow flex items-center justify-center bg-background p-4">
+                {children}
+            </main>
+        </div>
+    )
+}
 
 export default function MiCuentaPage() {
     const { toast } = useToast();
@@ -119,17 +130,17 @@ export default function MiCuentaPage() {
 
   if (!isLoggedIn) {
     return (
-        <div className="flex justify-center items-center py-12">
-            <Card className="w-full max-w-md">
+        <FullScreenLayout>
+            <Card className="w-full max-w-md border-0 shadow-none sm:border sm:shadow-lg">
                 <CardHeader className="text-center">
-                    <CardTitle>Acceso a Funcionarios</CardTitle>
-                    <CardDescription>Inicie sesión para gestionar su perfil.</CardDescription>
+                    <CardTitle className="text-2xl">Acceso a Funcionarios</CardTitle>
+                    <CardDescription>Inicie sesión para continuar en la plataforma.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleLoginSubmit} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="username">Usuario</Label>
-                            <Input id="username" placeholder="Su usuario institucional" required value={username} onChange={(e) => setUsername(e.target.value)} />
+                            <Input id="username" placeholder="Tu usuario institucional" required value={username} onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password">Contraseña</Label>
@@ -166,7 +177,7 @@ export default function MiCuentaPage() {
                     </form>
                 </CardContent>
             </Card>
-        </div>
+        </FullScreenLayout>
     );
   }
 
