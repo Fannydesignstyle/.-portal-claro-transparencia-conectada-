@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Building, FileText, Users, MessageSquare, Target, BookOpen, Scale, ShieldCheck } from "lucide-react";
+import { ArrowRight, Building, FileText, Users, MessageSquare, Target, ShieldCheck, Scale, BookOpen } from "lucide-react";
 import Image from "next/image";
 
 
@@ -73,7 +73,7 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <p>Cada acción y perfil en la plataforma está validado institucionalmente, garantizando confianza.</p>
-                </Content>
+                </CardContent>
             </Card>
         </div>
       </section>
@@ -167,5 +167,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
