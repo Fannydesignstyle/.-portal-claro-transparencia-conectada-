@@ -174,7 +174,7 @@ export default function ImagenPublicaPage() {
   const filteredProfiles = useMemo(() => {
     if (!searchTerm) return allProfiles;
     return allProfiles.filter(p =>
-      p.department?.toLowerCase().includes(searchTerm.toLowerCase())
+      p.department && p.department.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm, allProfiles]);
 
