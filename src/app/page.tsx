@@ -13,15 +13,30 @@ import { ArrowRight, BarChart3, Building, FileText, FolderArchive, MessageSquare
 export default function Home() {
   return (
     <div className="space-y-12">
-      <section className="relative text-center bg-card p-10 py-16 rounded-lg shadow-sm overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/10"></div>
+      <section className="relative text-center bg-card p-10 py-20 rounded-2xl shadow-lg overflow-hidden border border-primary/20">
+         <div 
+          className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10 pointer-events-none"
+        />
+        <div 
+          className="absolute top-0 left-0 w-1/3 h-1/3 bg-primary/20 rounded-full filter blur-3xl"
+        />
+        <div 
+          className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-accent/20 rounded-full filter blur-3xl"
+        />
         <div className="relative z-10">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary">
-              Bienvenida, Estefanía
+            <h1 className="text-5xl md:text-7xl font-extrabold text-foreground tracking-tighter">
+              Transparencia Conectada
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-              Plataforma de Transparencia Conectada. Gestiona la información institucional y la participación ciudadana.
+            <p className="mt-6 text-lg text-muted-foreground max-w-3xl mx-auto">
+              Una plataforma ética, modular y pública que redefine la interacción entre la ciudadanía y el gobierno.
             </p>
+             <div className="mt-8 flex justify-center">
+              <Button asChild size="lg" className="text-lg">
+                <Link href="/participacion-ciudadana/buzon">
+                  Participa Ahora <ArrowRight />
+                </Link>
+              </Button>
+            </div>
         </div>
       </section>
       
@@ -31,7 +46,7 @@ export default function Home() {
             <p className="mt-2 text-muted-foreground">Navega a las diferentes secciones de la plataforma.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
+          <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Building className="text-accent" />
@@ -43,7 +58,7 @@ export default function Home() {
               <Button variant="link" className="justify-start p-0" asChild><Link href="/informacion-institucional/marco-legal">Marco Legal</Link></Button>
             </CardContent>
           </Card>
-           <Card>
+           <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="text-accent" />
@@ -55,7 +70,7 @@ export default function Home() {
               <Button variant="link" className="justify-start p-0" asChild><Link href="/transparencia/presupuesto-abierto">Presupuesto Abierto</Link></Button>
             </CardContent>
           </Card>
-           <Card>
+           <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="text-accent" />
@@ -67,7 +82,7 @@ export default function Home() {
               <Button variant="link" className="justify-start p-0" asChild><Link href="/participacion-ciudadana/encuestas">Encuestas Activas</Link></Button>
             </CardContent>
           </Card>
-           <Card>
+           <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MessageSquare className="text-accent" />
