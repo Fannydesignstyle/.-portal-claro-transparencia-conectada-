@@ -29,7 +29,7 @@ export default function Home() {
             <h1 className="text-5xl md:text-7xl font-extrabold text-foreground tracking-tighter">
               Transparencia Conectada
             </h1>
-            <p className="mt-6 text-lg text-muted-foreground max-w-3xl mx-auto">
+            <p className="mt-6 text-xl text-muted-foreground max-w-3xl mx-auto">
               Una plataforma ética, modular y pública que redefine la interacción entre la ciudadanía y el gobierno.
             </p>
              <div className="mt-8 flex justify-center">
@@ -44,56 +44,44 @@ export default function Home() {
 
       <section>
          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary">Módulos Principales</h2>
-            <p className="mt-2 text-muted-foreground">Navega a las diferentes secciones de la plataforma.</p>
+            <h2 className="text-3xl font-bold text-primary">Principios Fundamentales</h2>
+            <p className="mt-2 text-muted-foreground">La esencia de nuestra plataforma.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300 flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Building className="text-accent" />
-                Información Institucional
+                <Target className="text-accent" />
+                Nuestro Objetivo
               </CardTitle>
-              <CardDescription>Conoce la estructura, responsables y el marco legal que nos rige.</CardDescription>
+              <CardDescription>Fortalecer la democracia y la confianza ciudadana a través de la tecnología cívica y la transparencia radical.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex items-end">
-              <Button variant="outline" className="w-full" asChild><Link href="/informacion-institucional/organigrama">Explorar Instituciones</Link></Button>
+              <Button variant="outline" className="w-full" asChild><Link href="#">Conocer la Misión</Link></Button>
             </CardContent>
           </Card>
            <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300 flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText className="text-accent" />
-                Transparencia
+                <ShieldCheck className="text-accent" />
+                Propuesta de Valor
               </CardTitle>
-              <CardDescription>Accede a informes, documentos y datos abiertos sobre la gestión pública.</CardDescription>
+              <CardDescription>Ofrecemos una estructura ética, modular y pública que amplifica la voz legítima de los ciudadanos.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex items-end">
-              <Button variant="outline" className="w-full" asChild><Link href="/transparencia/informes">Explorar Documentos</Link></Button>
+              <Button variant="outline" className="w-full" asChild><Link href="#">Ver Beneficios</Link></Button>
             </CardContent>
           </Card>
            <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300 flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Users className="text-accent" />
-                Participación Ciudadana
+                <BookOpen className="text-accent" />
+                Manifiesto
               </CardTitle>
-              <CardDescription>Tu voz es importante. Envía propuestas, participa en encuestas y más.</CardDescription>
+              <CardDescription>Creemos en la acción pública dignificada, en la participación informada y en la tecnología como puente.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex items-end">
-               <Button variant="outline" className="w-full" asChild><Link href="/participacion-ciudadana/buzon">Explorar Participación</Link></Button>
-            </CardContent>
-          </Card>
-           <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300 flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageSquare className="text-accent" />
-                Contacto y Solicitudes
-              </CardTitle>
-              <CardDescription>Encuentra directorios y canales oficiales para tus consultas.</CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow flex items-end">
-                <Button variant="outline" className="w-full" asChild><Link href="/contacto/directorio">Explorar Contacto</Link></Button>
+               <Button variant="outline" className="w-full" asChild><Link href="#">Leer Principios</Link></Button>
             </CardContent>
           </Card>
         </div>
