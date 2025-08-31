@@ -15,6 +15,9 @@ import {
   Archive,
   ClipboardList,
   Contact,
+  Target,
+  ShieldCheck,
+  BookOpen,
 } from "lucide-react";
 import {
   Accordion,
@@ -66,6 +69,9 @@ const navLinks = [
     subLinks: [
       { title: "Organigrama", href: "/informacion-institucional/organigrama", icon: LayoutGrid },
       { title: "Marco legal", href: "/informacion-institucional/marco-legal", icon: Scale },
+      { title: "Objetivos", href: "/informacion-institucional/objetivos", icon: Target },
+      { title: "Propuesta de Valor", href: "/informacion-institucional/propuesta-de-valor", icon: ShieldCheck },
+      { title: "Manifiesto", href: "/informacion-institucional/manifiesto", icon: BookOpen },
     ],
   },
   {

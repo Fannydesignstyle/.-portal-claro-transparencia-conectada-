@@ -57,7 +57,7 @@ export default function Home() {
               <CardDescription>Fortalecer la democracia y la confianza ciudadana a través de la tecnología cívica y la transparencia radical.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex items-end">
-              <Button variant="outline" className="w-full" asChild><Link href="#">Conocer la Misión</Link></Button>
+              <Button variant="outline" className="w-full" asChild><Link href="/informacion-institucional/objetivos">Conocer la Misión</Link></Button>
             </CardContent>
           </Card>
            <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300 flex flex-col">
@@ -69,7 +69,7 @@ export default function Home() {
               <CardDescription>Ofrecemos una estructura ética, modular y pública que amplifica la voz legítima de los ciudadanos.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex items-end">
-              <Button variant="outline" className="w-full" asChild><Link href="#">Ver Beneficios</Link></Button>
+              <Button variant="outline" className="w-full" asChild><Link href="/informacion-institucional/propuesta-de-valor">Ver Beneficios</Link></Button>
             </CardContent>
           </Card>
            <Card className="hover:border-primary/50 hover:shadow-primary/10 transition-all duration-300 flex flex-col">
@@ -81,7 +81,7 @@ export default function Home() {
               <CardDescription>Creemos en la acción pública dignificada, en la participación informada y en la tecnología como puente.</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex items-end">
-               <Button variant="outline" className="w-full" asChild><Link href="#">Leer Principios</Link></Button>
+               <Button variant="outline" className="w-full" asChild><Link href="/informacion-institucional/manifiesto">Leer Principios</Link></Button>
             </CardContent>
           </Card>
         </div>
