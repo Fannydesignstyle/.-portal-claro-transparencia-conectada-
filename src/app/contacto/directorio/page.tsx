@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -14,14 +15,14 @@ const events = [
   { date: new Date(2025, 8, 22), title: "Taller de Participación Ciudadana: Proyectos Verdes", time: "17:00 - 19:00", location: "Online (Zoom)" },
 ];
 
-export default function MemoriaInstitucionalPage() {
+export default function DirectorioPage() {
   const [date, setDate] = useState<Date | undefined>(new Date(2025, 7, 18));
 
   const selectedDayEvents = events.filter(event => date && isSameDay(event.date, date));
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Memoria Institucional</h1>
+      <h1 className="text-3xl font-bold text-primary">Calendario Cívico</h1>
       <p className="text-muted-foreground">
         Historial y seguimiento de la actividad pública. Participe en audiencias, sesiones y otros eventos.
       </p>
@@ -41,17 +42,6 @@ export default function MemoriaInstitucionalPage() {
                 }}
                 modifiersClassNames={{
                   hasEvent: 'font-bold text-primary relative',
-                }}
-                components={{
-                  Day: ({ date, ...props }) => {
-                    const hasEvent = events.some(e => isSameDay(e.date, date));
-                    return (
-                      <div {...props.buttonProps} className={props.className} style={props.style}>
-                        {date.getDate()}
-                        {hasEvent && <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-accent"></div>}
-                      </div>
-                    );
-                  },
                 }}
              />
         </Card>
@@ -94,3 +84,4 @@ export default function MemoriaInstitucionalPage() {
     </div>
   );
 }
+

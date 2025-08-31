@@ -30,7 +30,7 @@ export default function DocumentacionModularPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Documentación Modular</h1>
+      <h1 className="text-3xl font-bold text-primary">Informes y Documentos</h1>
       <p className="text-muted-foreground">
         Archivos con rutas claras, accesibles y reutilizables. La memoria viva de la acción pública.
       </p>
@@ -66,7 +66,7 @@ export default function DocumentacionModularPage() {
                         <TableCell className="text-center">{doc.version}</TableCell>
                         <TableCell>{doc.date}</TableCell>
                         <TableCell>
-                            <Badge variant="secondary">{doc.type}</Badge>
+                            <Badge variant="secondary" className="bg-secondary text-secondary-foreground">{doc.type}</Badge>
                         </TableCell>
                         <TableCell className="text-right">
                             <Button variant="ghost" size="icon">

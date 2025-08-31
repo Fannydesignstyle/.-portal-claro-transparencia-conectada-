@@ -184,7 +184,7 @@ export default function ImagenPublicaPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
-            <h1 className="text-3xl font-bold text-primary">Imagen Pública</h1>
+            <h1 className="text-3xl font-bold text-primary">Organigrama</h1>
             <p className="text-muted-foreground">
                 Representación visual legítima, validada institucionalmente. Conozca la estructura y responsables.
             </p>
@@ -220,3 +220,4 @@ export default function ImagenPublicaPage() {
     </div>
   );
 }
+

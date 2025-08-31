@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
@@ -41,10 +42,10 @@ const datasets = [
     { name: "Estadísticas Demográficas 2025", format: "CSV", size: "12.8 MB" },
 ];
 
-export default function TransparenciaActivaPage() {
+export default function PresupuestoAbiertoPage() {
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-primary">Transparencia Activa</h1>
+      <h1 className="text-3xl font-bold text-primary">Presupuesto Abierto</h1>
       <p className="text-muted-foreground">
         Acciones públicas documentadas y visibles. Explore datos a través de visualizaciones y descargue datasets.
       </p>
