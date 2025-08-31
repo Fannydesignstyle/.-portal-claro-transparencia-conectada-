@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { UserCircle, PanelLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { MobileNav } from "./mobile-nav";
 
 export function Header() {
@@ -19,6 +19,9 @@ export function Header() {
                             </Button>
                           </SheetTrigger>
                           <SheetContent side="left" className="p-0">
+                            <SheetHeader className="sr-only">
+                                <SheetTitle>Menú Principal</SheetTitle>
+                            </SheetHeader>
                             <MobileNav />
                           </SheetContent>
                         </Sheet>
