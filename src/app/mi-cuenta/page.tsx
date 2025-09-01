@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2, Image as ImageIcon, PlusCircle } from "lucide-react";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2, Image as ImageIcon, PlusCircle, Home } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
@@ -26,6 +26,8 @@ import {
 import type { GalleryItem } from "@/app/prensa-y-multimedia/galeria/page";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose, DialogFooter } from "@/components/ui/dialog";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 // --- INSTRUCCIONES ---
 // Para cambiar las credenciales de acceso, modifica los siguientes valores.
@@ -325,10 +327,18 @@ export default function MiCuentaPage() {
                                 <AlertDescription>{error}</AlertDescription>
                             </Alert>
                         )}
-                        <Button type="submit" className="w-full">
-                            <Lock className="mr-2"/>
-                            Iniciar Sesión
-                        </Button>
+                        <div className="flex flex-col gap-2">
+                            <Button type="submit" className="w-full">
+                                <Lock className="mr-2"/>
+                                Iniciar Sesión
+                            </Button>
+                             <Button variant="outline" className="w-full" asChild>
+                                <Link href="/">
+                                    <Home className="mr-2"/>
+                                    Volver a la Plataforma
+                                </Link>
+                            </Button>
+                        </div>
                     </form>
                 </CardContent>
             </Card>
