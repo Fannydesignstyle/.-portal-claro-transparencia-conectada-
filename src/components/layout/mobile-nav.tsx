@@ -19,6 +19,9 @@ import {
   ShieldCheck,
   BookOpen,
   FileSearch,
+  Newspaper,
+  HelpCircle,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Accordion,
@@ -91,6 +94,16 @@ const navLinks = [
     subLinks: [
       { title: "Buzón de propuestas", href: "/participacion-ciudadana/buzon", icon: Archive },
       { title: "Encuestas activas", href: "/participacion-ciudadana/encuestas", icon: ClipboardList },
+    ],
+  },
+   {
+    title: "Prensa y Multimedia",
+    icon: Newspaper,
+    basePath: "/prensa-y-multimedia",
+    subLinks: [
+      { title: "Noticias", href: "/prensa-y-multimedia/noticias", icon: Newspaper },
+      { title: "Preguntas Frecuentes", href: "/prensa-y-multimedia/faq", icon: HelpCircle },
+      { title: "Galería", href: "/prensa-y-multimedia/galeria", icon: ImageIcon },
     ],
   },
   {
