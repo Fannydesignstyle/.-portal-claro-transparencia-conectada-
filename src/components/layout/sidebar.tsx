@@ -83,7 +83,7 @@ const navLinks = [
     icon: FileText,
     basePath: "/transparencia",
     subLinks: [
-      { title: "Informes trimestrales", href: "/transparencia/informes", icon: BarChart3 },
+      { title: "Informes y Documentos", href: "/transparencia/informes", icon: BarChart3 },
       { title: "Presupuesto abierto", href: "/transparencia/presupuesto-abierto", icon: Users },
     ],
   },
@@ -97,11 +97,12 @@ const navLinks = [
     ],
   },
   {
-    title: "Contacto y solicitudes",
+    title: "Contacto",
     icon: MessageSquare,
     basePath: "/contacto",
     subLinks: [
-      { title: "Directorio", href: "/contacto/directorio", icon: Contact },
+      { title: "Calendario Cívico", href: "/contacto/directorio", icon: Contact },
+      { title: "Contacto y Solicitudes", href: "/contacto/solicitudes", icon: FileSearch },
     ],
   },
 ];

@@ -1,19 +1,20 @@
+
 "use client";
 
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download, Search } from "lucide-react";
+import { Download, Search, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const documents = [
-  { id: 'ACTA-08-25', name: 'Acta de Sesión Plenaria Agosto', version: '1.0', date: '2025-08-15', type: 'Acta' },
-  { id: 'LINT-006', name: 'Lineamientos Técnicos de Obra Pública', version: '3.0', date: '2025-08-20', type: 'Lineamiento' },
-  { id: 'ACTA-09-25', name: 'Acta de Sesión Plenaria Septiembre', version: '1.0', date: '2025-09-16', type: 'Acta' },
-  { id: 'MINU-08-25', name: 'Minuta de Comisión de Hacienda Agosto', version: '1.0', date: '2025-08-28', type: 'Minuta' },
-  { id: 'HIST-002', name: 'Historial de Modificaciones Presupuestarias Q3', version: '1.0', date: '2025-09-30', type: 'Historial' },
-  { id: 'LINT-007', name: 'Lineamientos de Transparencia Focalizada', version: '1.0', date: '2025-09-05', type: 'Lineamiento' },
+  { id: 'ACTA-08-25', name: 'Acta de Sesión Plenaria Agosto', version: '1.0', date: '2025-08-15', type: 'Acta', url: '/docs/placeholder.pdf' },
+  { id: 'LINT-006', name: 'Lineamientos Técnicos de Obra Pública', version: '3.0', date: '2025-08-20', type: 'Lineamiento', url: '/docs/placeholder.pdf' },
+  { id: 'ACTA-09-25', name: 'Acta de Sesión Plenaria Septiembre', version: '1.0', date: '2025-09-16', type: 'Acta', url: '/docs/placeholder.pdf' },
+  { id: 'MINU-08-25', name: 'Minuta de Comisión de Hacienda Agosto', version: '1.0', date: '2025-08-28', type: 'Minuta', url: '/docs/placeholder.pdf' },
+  { id: 'HIST-002', name: 'Historial de Modificaciones Presupuestarias Q3', version: '1.0', date: '2025-09-30', type: 'Historial', url: '/docs/placeholder.pdf' },
+  { id: 'LINT-007', name: 'Lineamientos de Transparencia Focalizada', version: '1.0', date: '2025-09-05', type: 'Lineamiento', url: '/docs/placeholder.pdf' },
 ];
 
 export default function DocumentacionModularPage() {
@@ -55,7 +56,7 @@ export default function DocumentacionModularPage() {
                     <TableHead>Versión</TableHead>
                     <TableHead>Fecha Modificación</TableHead>
                     <TableHead>Tipo</TableHead>
-                    <TableHead className="text-right">Acción</TableHead>
+                    <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -68,9 +69,16 @@ export default function DocumentacionModularPage() {
                         <TableCell>
                             <Badge variant="secondary" className="bg-secondary text-secondary-foreground">{doc.type}</Badge>
                         </TableCell>
-                        <TableCell className="text-right">
-                            <Button variant="ghost" size="icon">
-                                <Download className="h-4 w-4" />
+                        <TableCell className="text-right space-x-2">
+                             <Button variant="ghost" size="icon" asChild>
+                                <a href={doc.url} target="_blank" rel="noopener noreferrer">
+                                    <Eye className="h-4 w-4" />
+                                </a>
+                            </Button>
+                            <Button variant="ghost" size="icon" asChild>
+                                <a href={doc.url} download={`${doc.id}.pdf`}>
+                                    <Download className="h-4 w-4" />
+                                </a>
                             </Button>
                         </TableCell>
                     </TableRow>

@@ -4,7 +4,7 @@
 import React, { useState, useRef, useContext, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Mail, Phone, QrCode, Download, Building, Globe, Search, User, Briefcase, MapPin, Share2, Sparkles, Goal, Lightbulb, Loader } from "lucide-react";
+import { Mail, Phone, QrCode, Download, Building, Globe, Search, User, Briefcase, MapPin, Share2, Sparkles, Goal, Lightbulb, Loader, ListChecks, CheckCircle } from "lucide-react";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -162,9 +162,19 @@ const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: ()
                                     </div>
                                 </div>
                                 <div>
-                                    <h5 className="font-bold text-primary mb-2 flex items-center gap-2"><Goal className="text-accent" /> Objetivos Actuales</h5>
+                                    <h5 className="font-bold text-primary mb-2 flex items-center gap-2"><ListChecks className="text-accent" /> Proyectos en Progreso</h5>
                                     <p className="text-muted-foreground">
-                                        Refinar la estructura visual de la plataforma, integrar métricas en tiempo real con Azure Application Insights y empoderar equipos institucionales con herramientas de autogestión.
+                                        - Refinamiento de la estructura visual de la plataforma.
+                                        <br/>
+                                        - Integración de métricas en tiempo real.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold text-primary mb-2 flex items-center gap-2"><CheckCircle className="text-accent" /> Proyectos Concluidos</h5>
+                                    <p className="text-muted-foreground">
+                                        - Lanzamiento de la fase inicial de la plataforma.
+                                        <br/>
+                                        - Implementación del sistema de perfiles institucionales.
                                     </p>
                                 </div>
                             </div>
