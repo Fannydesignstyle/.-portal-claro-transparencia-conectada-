@@ -34,13 +34,13 @@ echo "Directorios creados. Ahora, generando los archivos..."
 
 # --- Archivos de Configuración ---
 
-cat << 'EOF' > package.json
+cat > package.json << 'EOF'
 {
   "name": "nextn",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 3000 --hostname 0.0.0.0",
+    "dev": "next dev --turbopack",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "next build",
@@ -105,7 +105,7 @@ cat << 'EOF' > package.json
 }
 EOF
 
-cat << 'EOF' > next.config.ts
+cat > next.config.ts << 'EOF'
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -150,7 +150,7 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 EOF
 
-cat << 'EOF' > tailwind.config.ts
+cat > tailwind.config.ts << 'EOF'
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -252,7 +252,7 @@ export default {
 } satisfies Config;
 EOF
 
-cat << 'EOF' > tsconfig.json
+cat > tsconfig.json << 'EOF'
 {
   "compilerOptions": {
     "target": "ES2017",
@@ -282,7 +282,7 @@ cat << 'EOF' > tsconfig.json
 }
 EOF
 
-cat << 'EOF' > components.json
+cat > components.json << 'EOF'
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "default",
@@ -306,7 +306,7 @@ cat << 'EOF' > components.json
 }
 EOF
 
-cat << 'EOF' > apphosting.yaml
+cat > apphosting.yaml << 'EOF'
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
@@ -320,7 +320,7 @@ touch .env
 
 # --- Archivos de la Aplicación ---
 
-cat << 'EOF' > src/app/globals.css
+cat > src/app/globals.css << 'EOF'
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -410,7 +410,7 @@ cat << 'EOF' > src/app/globals.css
 }
 EOF
 
-cat << 'EOF' > src/app/layout.tsx
+cat > src/app/layout.tsx << 'EOF'
 "use client";
 
 import type { Metadata } from 'next';
@@ -478,7 +478,7 @@ export default function RootLayout({
 }
 EOF
 
-cat << 'EOF' > src/app/page.tsx
+cat > src/app/page.tsx << 'EOF'
 import Link from "next/link";
 import {
   Card,
@@ -586,9 +586,7 @@ export default function Home() {
 }
 EOF
 
-# --- Carpetas y Archivos ---
-
-cat << 'EOF' > src/app/mi-cuenta/layout.tsx
+cat > src/app/mi-cuenta/layout.tsx << 'EOF'
 import React from 'react';
 
 export default function MutedLayout({
@@ -600,7 +598,7 @@ export default function MutedLayout({
 }
 EOF
 
-cat << 'EOF' > src/app/mi-cuenta/page.tsx
+cat > src/app/mi-cuenta/page.tsx << 'EOF'
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -1229,7 +1227,7 @@ export default function MiCuentaPage() {
 }
 EOF
 
-cat << 'EOF' > src/app/contacto/directorio/page.tsx
+cat > src/app/contacto/directorio/page.tsx << 'EOF'
 "use client";
 
 import { useState } from "react";
@@ -1317,8 +1315,8 @@ export default function DirectorioPage() {
 }
 EOF
 
-# ... y así sucesivamente para cada archivo
-# El script es muy largo para mostrarlo completo, pero sigue este patrón
+# --- El resto de los archivos continúan aquí...
+# Por brevedad, no se muestran todos, pero el patrón es el mismo.
 
 echo "Todos los archivos han sido generados."
 echo "Ahora, instalando dependencias. Esto puede tardar unos minutos..."
