@@ -1,9 +1,9 @@
 
 "use client";
 
-import React, { useState, useRef, useContext, useMemo } from 'react';
+import React, { useState, useRef, useContext, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Mail, Phone, QrCode, Download, Building, Globe, Search, User, Briefcase, MapPin, Share2, Sparkles, Goal, Lightbulb, Loader } from "lucide-react";
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { ProfileContext, type Profile } from '@/context/ProfileContext';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 const foundingPartner: Profile = {
@@ -124,8 +125,8 @@ const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: ()
     return (
         <Dialog open={true} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-lg p-0 bg-transparent border-none shadow-none">
-                <DialogHeader className="sr-only">
-                    <DialogTitle>Ficha Institucional de {profile.name}</DialogTitle>
+                <DialogHeader>
+                    <DialogTitle className="sr-only">Ficha Institucional de {profile.name}</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
                     <div ref={cardRef} className="bg-card text-card-foreground rounded-lg overflow-hidden">
@@ -198,7 +199,11 @@ const InstitutionalCard = ({ profile, onClose }: { profile: Profile, onClose: ()
 const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (profile: Profile) => void; }) => (
   <div id={profile.id} className="flex items-center gap-6 p-6 border-b">
     <Avatar className="w-24 h-24 ring-2 ring-primary/10">
-      <Image src={profile.avatar} alt={profile.name} width={96} height={96} data-ai-hint={profile.dataAiHint} className="rounded-full object-cover" />
+        {profile.avatar ? (
+            <Image src={profile.avatar} alt={profile.name} width={96} height={96} data-ai-hint={profile.dataAiHint} className="rounded-full object-cover" />
+        ) : (
+            <AvatarFallback>{profile.name.charAt(0)}</AvatarFallback>
+        )}
     </Avatar>
     <div className="flex-grow">
         <p className="font-bold text-xl text-primary">{profile.name}</p>
@@ -228,9 +233,25 @@ const ProfileCard = ({ profile, onShowCard }: { profile: Profile; onShowCard: (p
   </div>
 );
 
+const ProfileCardSkeleton = () => (
+    <div className="flex items-center gap-6 p-6 border-b">
+        <Skeleton className="w-24 h-24 rounded-full" />
+        <div className="flex-grow space-y-2">
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-6 w-56" />
+            <div className="mt-4 space-y-2">
+                <Skeleton className="h-5 w-64" />
+                <Skeleton className="h-5 w-40" />
+            </div>
+        </div>
+        <Skeleton className="h-9 w-28" />
+    </div>
+)
+
 export default function ImagenPublicaPage() {
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
-  const { profile: topLevelProfile } = useContext(ProfileContext);
+  const { profile: topLevelProfile, isInitialized } = useContext(ProfileContext);
   const [searchTerm, setSearchTerm] = useState("");
 
   const allProfiles = useMemo(() => {
@@ -238,11 +259,34 @@ export default function ImagenPublicaPage() {
   }, [topLevelProfile]);
 
   const filteredProfiles = useMemo(() => {
-    if (!searchTerm) return allProfiles;
-    return allProfiles.filter(p =>
-      p && p.department && p.department.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm, allProfiles]);
+    const profilesToFilter = allProfiles.filter(p => p.id !== topLevelProfile.id);
+    const updatedTopLevelProfile = allProfiles.find(p => p.id === topLevelProfile.id);
+
+    let searchResult = profilesToFilter;
+
+    if (searchTerm) {
+        searchResult = searchResult.filter(p =>
+            p && p.department && p.department.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    }
+    
+    // Always include the topLevelProfile if it matches the search or if there's no search term
+    if (updatedTopLevelProfile && (!searchTerm || (updatedTopLevelProfile.department && updatedTopLevelProfile.department.toLowerCase().includes(searchTerm.toLowerCase())))) {
+      return [updatedTopLevelProfile, ...searchResult.filter(p => p.id !== topLevelProfile.id)];
+    }
+    
+    return searchResult;
+  }, [searchTerm, allProfiles, topLevelProfile]);
+  
+  useEffect(() => {
+      const hash = window.location.hash.substring(1);
+      if (isInitialized && hash) {
+          const profileToShow = allProfiles.find(p => p.id === hash);
+          if (profileToShow) {
+              setSelectedProfile(profileToShow);
+          }
+      }
+  }, [isInitialized, allProfiles]);
 
   return (
     <div className="space-y-8">
@@ -266,7 +310,13 @@ export default function ImagenPublicaPage() {
       </div>
       
       <div className="border rounded-lg bg-card">
-        {filteredProfiles.length > 0 ? filteredProfiles.map((profile) => (
+        {!isInitialized ? (
+            <>
+                <ProfileCardSkeleton />
+                <ProfileCardSkeleton />
+                <ProfileCardSkeleton />
+            </>
+        ) : filteredProfiles.length > 0 ? filteredProfiles.map((profile) => (
             profile ? <ProfileCard key={profile.id} profile={profile} onShowCard={setSelectedProfile} /> : null
         )) : (
             <p className="text-center text-muted-foreground p-10">

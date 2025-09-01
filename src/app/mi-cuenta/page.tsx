@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
 import { ProfileContext, type Profile } from "@/context/ProfileContext";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // --- INSTRUCCIONES ---
 // Para cambiar las credenciales de acceso, modifica los siguientes valores.
@@ -34,7 +35,7 @@ export default function MiCuentaPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [qrKey, setQrKey] = useState(Date.now());
     
-    const { profile, setProfile } = useContext(ProfileContext);
+    const { profile, setProfile, isInitialized } = useContext(ProfileContext);
     const [localProfile, setLocalProfile] = useState<Profile>(profile);
 
     // State for login form
@@ -44,8 +45,10 @@ export default function MiCuentaPage() {
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        setLocalProfile(profile);
-    }, [profile]);
+        if (isInitialized) {
+            setLocalProfile(profile);
+        }
+    }, [profile, isInitialized]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -181,6 +184,59 @@ export default function MiCuentaPage() {
     );
   }
 
+  if (!isInitialized) {
+      return (
+          <div className="space-y-8">
+                <div className="flex justify-between items-start">
+                    <div>
+                        <Skeleton className="h-9 w-72" />
+                        <Skeleton className="h-5 w-96 mt-2" />
+                    </div>
+                    <Skeleton className="h-10 w-32" />
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                     <div className="lg:col-span-1 space-y-8">
+                         <Card>
+                             <CardHeader><Skeleton className="h-7 w-48" /></CardHeader>
+                             <CardContent className="space-y-6">
+                                 <div className="flex flex-col items-center space-y-4">
+                                     <Skeleton className="w-24 h-24 rounded-full" />
+                                     <div className="flex gap-2">
+                                        <Skeleton className="h-9 w-24" />
+                                        <Skeleton className="h-9 w-20" />
+                                     </div>
+                                 </div>
+                                 <div className="space-y-2"><Skeleton className="h-5 w-24" /><Skeleton className="h-10 w-full" /></div>
+                                 <div className="space-y-2"><Skeleton className="h-5 w-16" /><Skeleton className="h-10 w-full" /></div>
+                                 <div className="space-y-2"><Skeleton className="h-5 w-32" /><Skeleton className="h-10 w-full" /></div>
+                                 <div className="space-y-2"><Skeleton className="h-5 w-20" /><Skeleton className="h-10 w-full" /></div>
+                                 <Skeleton className="h-10 w-full" />
+                             </CardContent>
+                         </Card>
+                         <Card>
+                            <CardHeader>
+                                <Skeleton className="h-7 w-24" />
+                                <Skeleton className="h-5 w-64 mt-2" />
+                            </CardHeader>
+                             <CardContent className="flex flex-col items-center">
+                                 <Skeleton className="h-[166px] w-[166px]" />
+                                 <Skeleton className="h-10 w-full mt-4" />
+                             </CardContent>
+                         </Card>
+                     </div>
+                      <div className="lg:col-span-2">
+                         <Card className="h-full">
+                            <CardHeader>
+                                <Skeleton className="h-7 w-80" />
+                                <Skeleton className="h-5 w-96 mt-2" />
+                            </CardHeader>
+                         </Card>
+                     </div>
+                </div>
+          </div>
+      )
+  }
+
   return (
     <div className="space-y-8">
         <div className="flex justify-between items-start">
@@ -201,8 +257,11 @@ export default function MiCuentaPage() {
                 <CardContent className="space-y-6">
                     <div className="flex flex-col items-center space-y-4">
                          <Avatar className="w-24 h-24 ring-4 ring-primary/10">
-                            <Image src={localProfile.avatar} alt={localProfile.name} width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full object-cover" />
-                             <AvatarFallback>{localProfile.name.charAt(0)}</AvatarFallback>
+                            {localProfile.avatar ? (
+                                <Image src={localProfile.avatar} alt={localProfile.name} width={96} height={96} data-ai-hint="woman director portrait" className="rounded-full object-cover" />
+                            ) : (
+                                <AvatarFallback>{localProfile.name.charAt(0)}</AvatarFallback>
+                            )}
                         </Avatar>
                         <div className="flex gap-2">
                             <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar</Button>
