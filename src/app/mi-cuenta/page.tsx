@@ -13,12 +13,28 @@ import { useState, useRef, useContext, useEffect } from "react";
 import { ProfileContext, type Profile } from "@/context/ProfileContext";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // --- INSTRUCCIONES ---
 // Para cambiar las credenciales de acceso, modifica los siguientes valores.
 const ADMIN_USERNAME = "estefania"; // Cambia "admin" por tu usuario deseado
 const ADMIN_PASSWORD = "transparencia conectada"; // Cambia "password" por tu contraseña deseada
 // --------------------
+
+interface Document {
+  name: string;
+  date: string;
+  file: File;
+}
 
 const FullScreenLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -37,6 +53,8 @@ export default function MiCuentaPage() {
     
     const { profile, setProfile, isInitialized } = useContext(ProfileContext);
     const [localProfile, setLocalProfile] = useState<Profile>(profile);
+    const [documents, setDocuments] = useState<Document[]>([]);
+    const [docToDelete, setDocToDelete] = useState<Document | null>(null);
 
     // State for login form
     const [username, setUsername] = useState('');
@@ -47,10 +65,19 @@ export default function MiCuentaPage() {
     useEffect(() => {
         if (isInitialized) {
             setLocalProfile(profile);
+            // Load documents from localStorage if available
+            const storedDocs = localStorage.getItem("userDocuments");
+            if (storedDocs) {
+                // NOTE: This will not restore the File object, only the metadata.
+                // For a full implementation, you'd need to store files in a backend.
+                const parsedDocs = JSON.parse(storedDocs).map((d: any) => ({ name: d.name, date: d.date, file: null }));
+                setDocuments(parsedDocs);
+            }
         }
     }, [profile, isInitialized]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const docUploadRef = useRef<HTMLInputElement>(null);
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -95,7 +122,7 @@ export default function MiCuentaPage() {
         setLocalProfile(prev => ({ ...prev, [id]: value }));
     };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file && file.type.startsWith("image/")) {
             const reader = new FileReader();
@@ -121,7 +148,6 @@ export default function MiCuentaPage() {
         toast({
             description: "Generando nuevo código QR...",
         });
-        // Change the key to force re-render of the Image component
         setTimeout(() => {
             setQrKey(Date.now());
             toast({
@@ -130,6 +156,39 @@ export default function MiCuentaPage() {
             });
         }, 1000);
     };
+
+    const handleDocumentUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            const newDocs = Array.from(files).map(file => ({
+                name: file.name,
+                date: new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }),
+                file: file
+            }));
+            const updatedDocs = [...documents, ...newDocs];
+            setDocuments(updatedDocs);
+            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({name: d.name, date: d.date}))));
+            toast({
+                title: `${newDocs.length} archivo(s) subido(s)`,
+                description: "Los documentos están listos en la lista.",
+            });
+        }
+    };
+    
+    const handleDeleteDoc = () => {
+        if (docToDelete) {
+            const updatedDocs = documents.filter(doc => doc.name !== docToDelete.name);
+            setDocuments(updatedDocs);
+            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({name: d.name, date: d.date}))));
+            toast({
+                title: "Documento Eliminado",
+                description: `El archivo "${docToDelete.name}" ha sido eliminado.`,
+                variant: "destructive"
+            });
+            setDocToDelete(null);
+        }
+    };
+
 
   if (!isLoggedIn) {
     return (
@@ -267,7 +326,7 @@ export default function MiCuentaPage() {
                             <Button variant="outline" size="sm" onClick={handleFileSelectClick}><Upload className="mr-2"/>Cambiar</Button>
                             <Button variant="ghost" size="sm" onClick={() => setLocalProfile(prev => ({...prev, avatar: ''}))}><Trash2 className="mr-2"/>Quitar</Button>
                         </div>
-                        <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
+                        <input type="file" ref={fileInputRef} onChange={handleProfilePicChange} className="hidden" accept="image/*" />
                     </div>
                    <div className="space-y-2">
                         <Label htmlFor="name">Nombre Completo</Label>
@@ -323,8 +382,8 @@ export default function MiCuentaPage() {
                     <div className="p-6 border-2 border-dashed rounded-lg text-center flex flex-col items-center">
                         <Upload className="mx-auto h-12 w-12 text-muted-foreground"/>
                         <p className="mt-2 text-sm text-muted-foreground">Arrastre y suelte archivos aquí o haga clic para seleccionar</p>
-                        <Input id="file-upload" type="file" className="hidden" />
-                         <Button variant="outline" className="mt-4" onClick={() => document.getElementById('file-upload')?.click()}>
+                        <input id="file-upload" type="file" className="hidden" ref={docUploadRef} onChange={handleDocumentUpload} multiple />
+                         <Button variant="outline" className="mt-4" onClick={() => docUploadRef.current?.click()}>
                             <FileText className="mr-2"/>
                             Seleccionar Archivos
                         </Button>
@@ -332,34 +391,50 @@ export default function MiCuentaPage() {
 
                     <div>
                         <h3 className="text-lg font-semibold text-primary mb-4">Mis Documentos Subidos</h3>
-                        <ul className="space-y-3">
-                            <li className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
-                                <div>
-                                    <p className="font-medium">Reporte_Gestion_Q3_2025.pdf</p>
-                                    <p className="text-sm text-muted-foreground">Subido: 30 de Septiembre, 2025</p>
-                                </div>
-                                <div className="flex items-center">
-                                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
-                                    <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="h-4 w-4"/></Button>
-                                </div>
-                            </li>
-                             <li className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
-                                <div>
-                                    <p className="font-medium">Plan_Operativo_Anual_2026_Prop.docx</p>
-                                    <p className="text-sm text-muted-foreground">Subido: 15 de Agosto, 2025</p>
-                                </div>
-                                 <div className="flex items-center">
-                                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
-                                    <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="h-4 w-4"/></Button>
-                                </div>
-                            </li>
-                        </ul>
+                        {documents.length > 0 ? (
+                            <ul className="space-y-3">
+                                {documents.map((doc, index) => (
+                                <li key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
+                                    <div>
+                                        <p className="font-medium">{doc.name}</p>
+                                        <p className="text-sm text-muted-foreground">Subido: {doc.date}</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                                        <Button variant="ghost" size="icon" className="text-destructive" onClick={() => setDocToDelete(doc)}><Trash2 className="h-4 w-4"/></Button>
+                                    </div>
+                                </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-center text-muted-foreground p-6">No hay documentos subidos.</p>
+                        )}
                     </div>
                 </CardContent>
             </Card>
         </div>
 
       </div>
+
+      {docToDelete && (
+        <AlertDialog open onOpenChange={() => setDocToDelete(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Está seguro que desea eliminar?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción no se puede deshacer. Esto eliminará permanentemente el documento
+                <span className="font-bold"> {docToDelete.name}</span>.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDeleteDoc}>Eliminar</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </div>
   );
 }
+
+    
