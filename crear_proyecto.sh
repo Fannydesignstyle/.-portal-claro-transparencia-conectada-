@@ -40,7 +40,7 @@ cat << 'EOF' > package.json
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --port 9002 --hostname 0.0.0.0",
+    "dev": "next dev --turbopack --port 3000 --hostname 0.0.0.0",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "next build",
@@ -587,8 +587,6 @@ export default function Home() {
 EOF
 
 # --- Carpetas y Archivos ---
-
-# ... src/app ...
 
 cat << 'EOF' > src/app/mi-cuenta/layout.tsx
 import React from 'react';
