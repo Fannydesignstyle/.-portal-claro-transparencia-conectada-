@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2 } from "lucide-react";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2, Image as ImageIcon, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
@@ -23,6 +23,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import type { GalleryItem } from "@/app/prensa-y-multimedia/galeria/page";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose, DialogFooter } from "@/components/ui/dialog";
 
 // --- INSTRUCCIONES ---
 // Para cambiar las credenciales de acceso, modifica los siguientes valores.
@@ -35,6 +38,31 @@ interface Document {
   date: string;
   file: File;
 }
+
+const initialGalleryItems: GalleryItem[] = [
+  {
+    id: "event1",
+    title: "Sesión Inaugural del Comité de Transparencia",
+    description: "Miembros del comité en la primera sesión oficial.",
+    imageUrl: "https://picsum.photos/seed/event1/600/400",
+    dataAiHint: "official committee meeting"
+  },
+  {
+    id: "event2",
+    title: "Taller de Datos Abiertos con la Comunidad",
+    description: "Ciudadanos aprendiendo a usar las herramientas de la plataforma.",
+    imageUrl: "https://picsum.photos/seed/event2/600/400",
+    dataAiHint: "community workshop people"
+  },
+  {
+    id: "event3",
+    title: "Presentación del Presupuesto Anual",
+    description: "El Secretario de Finanzas presenta el presupuesto 2025.",
+    imageUrl: "https://picsum.photos/seed/event3/600/400",
+    dataAiHint: "press conference presentation"
+  },
+];
+
 
 const FullScreenLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -56,6 +84,10 @@ export default function MiCuentaPage() {
     const [documents, setDocuments] = useState<Document[]>([]);
     const [docToDelete, setDocToDelete] = useState<Document | null>(null);
 
+    const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+    const [itemToEdit, setItemToEdit] = useState<GalleryItem | null>(null);
+    const [itemToDelete, setItemToDelete] = useState<GalleryItem | null>(null);
+
     // State for login form
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -65,19 +97,26 @@ export default function MiCuentaPage() {
     useEffect(() => {
         if (isInitialized) {
             setLocalProfile(profile);
-            // Load documents from localStorage if available
+            
             const storedDocs = localStorage.getItem("userDocuments");
             if (storedDocs) {
-                // NOTE: This will not restore the File object, only the metadata.
-                // For a full implementation, you'd need to store files in a backend.
                 const parsedDocs = JSON.parse(storedDocs).map((d: any) => ({ name: d.name, date: d.date, file: null }));
                 setDocuments(parsedDocs);
+            }
+
+            const storedGallery = localStorage.getItem("galleryItems");
+            if (storedGallery) {
+                setGalleryItems(JSON.parse(storedGallery));
+            } else {
+                setGalleryItems(initialGalleryItems);
+                localStorage.setItem("galleryItems", JSON.stringify(initialGalleryItems));
             }
         }
     }, [profile, isInitialized]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const docUploadRef = useRef<HTMLInputElement>(null);
+    const galleryUploadRef = useRef<HTMLInputElement>(null);
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -189,6 +228,60 @@ export default function MiCuentaPage() {
         }
     };
 
+    const handleGalleryUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            Array.from(files).forEach(file => {
+                if(file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        const newGalleryItem: GalleryItem = {
+                            id: `gallery-${Date.now()}-${Math.random()}`,
+                            title: file.name,
+                            description: "Nueva imagen añadida.",
+                            imageUrl: reader.result as string,
+                            dataAiHint: "new custom image",
+                        };
+                        const updatedItems = [newGalleryItem, ...galleryItems];
+                        setGalleryItems(updatedItems);
+                        localStorage.setItem("galleryItems", JSON.stringify(updatedItems));
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+             toast({
+                title: `${files.length} imagen(es) subida(s)`,
+                description: "Las imágenes se han añadido a la galería.",
+            });
+        }
+    };
+
+    const handleEditItem = () => {
+        if (itemToEdit) {
+            const updatedItems = galleryItems.map(item => item.id === itemToEdit.id ? itemToEdit : item);
+            setGalleryItems(updatedItems);
+            localStorage.setItem("galleryItems", JSON.stringify(updatedItems));
+            toast({
+                title: "Elemento Actualizado",
+                description: "Los detalles de la imagen han sido guardados.",
+            });
+            setItemToEdit(null);
+        }
+    };
+
+    const handleDeleteItem = () => {
+        if (itemToDelete) {
+            const updatedItems = galleryItems.filter(item => item.id !== itemToDelete.id);
+            setGalleryItems(updatedItems);
+            localStorage.setItem("galleryItems", JSON.stringify(updatedItems));
+            toast({
+                title: "Elemento Eliminado",
+                description: `La imagen "${itemToDelete.title}" ha sido eliminada.`,
+                variant: "destructive"
+            });
+            setItemToDelete(null);
+        }
+    };
 
   if (!isLoggedIn) {
     return (
@@ -283,7 +376,13 @@ export default function MiCuentaPage() {
                              </CardContent>
                          </Card>
                      </div>
-                      <div className="lg:col-span-2">
+                      <div className="lg:col-span-2 space-y-8">
+                         <Card className="h-full">
+                            <CardHeader>
+                                <Skeleton className="h-7 w-80" />
+                                <Skeleton className="h-5 w-96 mt-2" />
+                            </CardHeader>
+                         </Card>
                          <Card className="h-full">
                             <CardHeader>
                                 <Skeleton className="h-7 w-80" />
@@ -371,9 +470,8 @@ export default function MiCuentaPage() {
             </Card>
         </div>
         
-        {/* Document Management */}
-        <div className="lg:col-span-2">
-             <Card className="h-full">
+        <div className="lg:col-span-2 space-y-8">
+             <Card>
                 <CardHeader>
                     <CardTitle>Gestión de Documentos y Reportes</CardTitle>
                     <CardDescription>Suba y administre sus archivos públicos.</CardDescription>
@@ -400,7 +498,7 @@ export default function MiCuentaPage() {
                                         <p className="text-sm text-muted-foreground">Subido: {doc.date}</p>
                                     </div>
                                     <div className="flex items-center">
-                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                                        <Button variant="ghost" size="icon" disabled><Edit className="h-4 w-4"/></Button>
                                         <Button variant="ghost" size="icon" className="text-destructive" onClick={() => setDocToDelete(doc)}><Trash2 className="h-4 w-4"/></Button>
                                     </div>
                                 </li>
@@ -408,6 +506,69 @@ export default function MiCuentaPage() {
                             </ul>
                         ) : (
                             <p className="text-center text-muted-foreground p-6">No hay documentos subidos.</p>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Gestión de Galería Multimedia</CardTitle>
+                    <CardDescription>Añada, edite y elimine las imágenes de la galería pública.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                     <input id="gallery-upload" type="file" className="hidden" ref={galleryUploadRef} onChange={handleGalleryUpload} multiple accept="image/*" />
+                     <Button variant="outline" className="w-full" onClick={() => galleryUploadRef.current?.click()}>
+                        <PlusCircle className="mr-2"/>
+                        Añadir Nuevas Imágenes
+                    </Button>
+
+                     <div>
+                        <h3 className="text-lg font-semibold text-primary mb-4">Imágenes de la Galería</h3>
+                        {galleryItems.length > 0 ? (
+                            <ul className="space-y-3">
+                                {galleryItems.map((item) => (
+                                <li key={item.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
+                                    <div className="flex items-center gap-4">
+                                        <Image src={item.imageUrl} alt={item.title} width={64} height={64} className="rounded-md object-cover aspect-square" />
+                                        <div>
+                                            <p className="font-medium">{item.title}</p>
+                                            <p className="text-sm text-muted-foreground truncate max-w-xs">{item.description}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="ghost" size="icon" onClick={() => setItemToEdit({...item})}><Edit className="h-4 w-4"/></Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Editar Elemento de la Galería</DialogTitle>
+                                                </DialogHeader>
+                                                {itemToEdit && (
+                                                    <div className="space-y-4 py-4">
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="edit-title">Título</Label>
+                                                            <Input id="edit-title" value={itemToEdit.title} onChange={(e) => setItemToEdit({...itemToEdit, title: e.target.value})} />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="edit-description">Descripción</Label>
+                                                            <Textarea id="edit-description" value={itemToEdit.description} onChange={(e) => setItemToEdit({...itemToEdit, description: e.target.value})} />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <DialogFooter>
+                                                    <DialogClose asChild><Button variant="ghost">Cancelar</Button></DialogClose>
+                                                    <Button onClick={handleEditItem}>Guardar Cambios</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+                                        <Button variant="ghost" size="icon" className="text-destructive" onClick={() => setItemToDelete(item)}><Trash2 className="h-4 w-4"/></Button>
+                                    </div>
+                                </li>
+                                ))}
+                            </ul>
+                        ) : (
+                             <p className="text-center text-muted-foreground p-6">No hay imágenes en la galería.</p>
                         )}
                     </div>
                 </CardContent>
@@ -428,7 +589,25 @@ export default function MiCuentaPage() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
-              <AlertDialogAction onClick={handleDeleteDoc}>Eliminar</AlertDialogAction>
+              <AlertDialogAction onClick={handleDeleteDoc} className={buttonVariants({ variant: "destructive" })}>Eliminar</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+
+       {itemToDelete && (
+        <AlertDialog open onOpenChange={() => setItemToDelete(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Está seguro que desea eliminar esta imagen?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción no se puede deshacer. Esto eliminará permanentemente la imagen titulada
+                <span className="font-bold"> {itemToDelete.title}</span>.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction onClick={handleDeleteItem} className={buttonVariants({ variant: "destructive" })}>Eliminar</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -436,5 +615,3 @@ export default function MiCuentaPage() {
     </div>
   );
 }
-
-    
