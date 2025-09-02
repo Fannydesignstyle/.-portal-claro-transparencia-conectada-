@@ -265,32 +265,27 @@ export default function ImagenPublicaPage() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const allProfiles = useMemo(() => {
-    return [topLevelProfile, foundingPartner, ...departments.map(d => d.lead), ...otherInstitutions];
+    // Asegúrate de que topLevelProfile no sea nulo o indefinido antes de incluirlo
+    return [topLevelProfile, foundingPartner, ...departments.map(d => d.lead), ...otherInstitutions].filter(p => p);
   }, [topLevelProfile]);
 
   const filteredProfiles = useMemo(() => {
-    const profilesToFilter = allProfiles.filter(p => p.id !== topLevelProfile.id);
-    const updatedTopLevelProfile = allProfiles.find(p => p.id === topLevelProfile.id);
-
-    let searchResult = profilesToFilter;
-
-    if (searchTerm) {
-        searchResult = searchResult.filter(p =>
-            p && p.department && p.department.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!searchTerm) {
+      return allProfiles;
+    }
+    const lowercasedTerm = searchTerm.toLowerCase();
+    return allProfiles.filter(profile => {
+        return (
+            profile.name.toLowerCase().includes(lowercasedTerm) ||
+            profile.title.toLowerCase().includes(lowercasedTerm) ||
+            profile.department.toLowerCase().includes(lowercasedTerm)
         );
-    }
-    
-    // Always include the topLevelProfile if it matches the search or if there's no search term
-    if (updatedTopLevelProfile && (!searchTerm || (updatedTopLevelProfile.department && updatedTopLevelProfile.department.toLowerCase().includes(searchTerm.toLowerCase())))) {
-      return [updatedTopLevelProfile, ...searchResult.filter(p => p.id !== topLevelProfile.id)];
-    }
-    
-    return searchResult;
-  }, [searchTerm, allProfiles, topLevelProfile]);
+    });
+  }, [searchTerm, allProfiles]);
   
   useEffect(() => {
-      const hash = window.location.hash.substring(1);
-      if (isInitialized && hash) {
+      if (isInitialized && window.location.hash) {
+          const hash = window.location.hash.substring(1);
           const profileToShow = allProfiles.find(p => p.id === hash);
           if (profileToShow) {
               setSelectedProfile(profileToShow);
@@ -311,7 +306,7 @@ export default function ImagenPublicaPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input 
                 type="search"
-                placeholder="Buscar por dependencia..."
+                placeholder="Buscar por nombre, cargo, dependencia..."
                 className="pl-10"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -344,3 +339,5 @@ export default function ImagenPublicaPage() {
     </div>
   );
 }
+
+    
