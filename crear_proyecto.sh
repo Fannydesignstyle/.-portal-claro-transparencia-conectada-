@@ -1321,9 +1321,13 @@ EOF
 echo "Todos los archivos han sido generados."
 echo "Ahora, instalando dependencias. Esto puede tardar unos minutos..."
 
-npm install --legacy-peer-deps && npm run dev
+npm install --legacy-peer-deps
 
 echo "¡Instalación completa! 🎉"
 echo "Para iniciar el servidor de desarrollo, puedes usar el comando:"
 echo "npm run dev"
 echo "Iniciando el servidor ahora..."
+
+npm run dev
+
+    
