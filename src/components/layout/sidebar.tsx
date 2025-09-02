@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -24,6 +23,7 @@ import {
   Newspaper,
   HelpCircle,
   Image as ImageIcon,
+  FileHeart,
 } from "lucide-react";
 import {
   Accordion,
@@ -99,6 +99,14 @@ const navLinks = [
       { title: "Encuestas activas", href: "/participacion-ciudadana/encuestas", icon: ClipboardList },
     ],
   },
+  {
+    title: "Peticiones (PQR)",
+    icon: FileHeart,
+    basePath: "/pqr",
+    subLinks: [
+      { title: "Registrar PQR", href: "/pqr", icon: FileSearch },
+    ],
+  },
     {
     title: "Prensa y Multimedia",
     icon: Newspaper,
@@ -115,7 +123,6 @@ const navLinks = [
     basePath: "/contacto",
     subLinks: [
       { title: "Calendario Cívico", href: "/contacto/directorio", icon: Contact },
-      { title: "Contacto y Solicitudes", href: "/contacto/solicitudes", icon: FileSearch },
     ],
   },
 ];
