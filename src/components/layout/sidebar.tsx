@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -44,7 +45,7 @@ const Logo = () => (
         className="text-primary"
     >
         <path
-            d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z"
+            d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z"
             stroke="currentColor"
             strokeWidth="2.5"
             strokeLinecap="round"
@@ -144,7 +145,7 @@ export function Sidebar() {
 
             <nav className="flex-1 px-4 py-6 space-y-2">
                 <Button variant={pathname === "/" ? "secondary" : "ghost"} className="w-full justify-start gap-3" asChild>
-                    <Link href="/">
+                    <Link href="/" prefetch={false}>
                         <Home />
                         Inicio
                     </Link>
@@ -167,7 +168,7 @@ export function Sidebar() {
                                         className="w-full justify-start gap-3"
                                         asChild
                                     >
-                                        <Link href={subLink.href}>
+                                        <Link href={subLink.href} prefetch={false}>
                                             <subLink.icon className="h-4 w-4" />
                                             {subLink.title}
                                         </Link>

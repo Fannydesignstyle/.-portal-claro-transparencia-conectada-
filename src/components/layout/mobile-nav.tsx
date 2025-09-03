@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -42,7 +43,7 @@ const Logo = () => (
         className="text-primary"
     >
         <path
-            d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z"
+            d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z"
             stroke="currentColor"
             strokeWidth="2.5"
             strokeLinecap="round"
@@ -127,7 +128,7 @@ const navLinks = [
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
     return (
         <SheetClose asChild>
-            <Link href={href}>
+            <Link href={href} prefetch={false}>
                 {children}
             </Link>
         </SheetClose>
@@ -150,7 +151,7 @@ export function MobileNav() {
             <h1 className="font-bold text-lg text-primary">Transparencia Conectada</h1>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-2">
+        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             <NavLink href="/">
                 <Button variant={pathname === "/" ? "secondary" : "ghost"} className="w-full justify-start gap-3">
                     <Home />
