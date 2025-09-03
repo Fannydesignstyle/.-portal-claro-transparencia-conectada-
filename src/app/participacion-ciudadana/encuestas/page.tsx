@@ -56,7 +56,7 @@ export default function EncuestasActivasPage() {
         <Card>
           <CardHeader>
             <CardTitle>Resultados de Consultas Anteriores</CardTitle>
-            <CardDescription>Consulta sobre "Movilidad Urbana" (Agosto 2025)</CardDescription>
+            <CardDescription>Consulta sobre &quot;Movilidad Urbana&quot; (Agosto 2025)</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
               <div>
