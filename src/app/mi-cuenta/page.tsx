@@ -528,7 +528,7 @@ export default function MiCuentaPage() {
                     <div className="p-4 border rounded-md">
                         <Image 
                             key={qrKey}
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`http://localhost:3000/perfiles-institucionales#${profile.id}`)}&r=${qrKey}`} 
+                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`http://localhost:3000/informacion-institucional/organigrama#${profile.id}`)}&r=${qrKey}`} 
                             alt="QR code"
                             width={150}
                             height={150}
@@ -725,5 +725,3 @@ export default function MiCuentaPage() {
     </div>
   );
 }
-
-    

@@ -1,72 +1,76 @@
 
 "use client";
 
-import React, { createContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useState, useEffect } from "react";
 
-export type Profile = {
+export interface Profile {
   id: string;
   name: string;
   title: string;
   avatar: string;
   email: string;
   phone: string;
-  dataAiHint?: string;
+  dataAiHint: string;
   department: string;
   website?: string;
-};
-
-const defaultProfile: Profile = {
-  id: "directora-estefania-perez",
-  name: "Estefanía Pérez Vázquez",
-  title: "Directora y Fundadora",
-  avatar: "https://picsum.photos/100/100?q=5",
-  email: "direccion@ptic-oaxaca.org",
-  phone: "+52 951 123 4567",
-  dataAiHint: "woman director portrait",
-  department: "Plataforma Voz Ciudadana"
-};
+}
 
 interface ProfileContextType {
   profile: Profile;
-  setProfile: (profile: Profile | ((prev: Profile) => Profile)) => void;
+  setProfile: (profile: Profile) => void;
   isInitialized: boolean;
 }
 
+const initialProfile: Profile = {
+  id: "directora-estefania-perez",
+  name: "Estefanía Pérez Vázquez",
+  title: "Directora de la Plataforma",
+  avatar: "https://picsum.photos/seed/director/100/100",
+  email: "estefania.perez@plataforma.oaxaca.gob.mx",
+  phone: "+52 951 123 4567",
+  dataAiHint: "woman director portrait",
+  department: "Dirección General"
+};
+
 export const ProfileContext = createContext<ProfileContextType>({
-  profile: defaultProfile,
-  setProfile: () => {},
-  isInitialized: false,
+    profile: initialProfile,
+    setProfile: () => {},
+    isInitialized: false,
 });
 
-export const ProfileProvider = ({ children }: { children: ReactNode }) => {
-  const [profile, setProfile] = useState<Profile>(defaultProfile);
+export const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
+  const [profile, setProfile] = useState<Profile>(initialProfile);
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     try {
-      const storedProfile = localStorage.getItem('userProfile');
-      if (storedProfile) {
-        setProfile(JSON.parse(storedProfile));
-      }
-    } catch (error) {
-      console.error("Failed to parse profile from localStorage", error);
+        const storedProfile = localStorage.getItem("userProfile");
+        if (storedProfile) {
+            setProfile(JSON.parse(storedProfile));
+        }
+    } catch (e) {
+        console.error("Failed to load profile from localStorage", e);
+    } finally {
+        setIsInitialized(true);
     }
-    setIsInitialized(true);
   }, []);
 
-  const setProfileHandler = (newProfileData: Profile | ((prev: Profile) => Profile)) => {
-    const newProfile = typeof newProfileData === 'function' ? newProfileData(profile) : newProfileData;
+  const handleSetProfile = (newProfile: Profile) => {
     setProfile(newProfile);
     try {
-        localStorage.setItem('userProfile', JSON.stringify(newProfile));
-    } catch (error) {
-        console.error("Failed to save profile to localStorage", error);
+        localStorage.setItem("userProfile", JSON.stringify(newProfile));
+    } catch(e) {
+        console.error("Failed to save profile to localStorage", e);
     }
+  }
+
+  const value = {
+    profile,
+    setProfile: handleSetProfile,
+    isInitialized,
   };
 
   return (
-    <ProfileContext.Provider value={{ profile, setProfile: setProfileHandler, isInitialized }}>
-      {children}
-    </ProfileContext.Provider>
+    <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>
   );
 };
