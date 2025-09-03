@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2, Image as ImageIcon, PlusCircle, Home } from "lucide-react";
+import { Upload, Lock, FileText, Edit, Save, RefreshCw, AlertTriangle, Eye, EyeOff, Trash2, Image as ImageIcon, PlusCircle, Home, Download } from "lucide-react";
 import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useContext, useEffect } from "react";
@@ -36,9 +36,16 @@ const ADMIN_PASSWORD = "transparencia conectada"; // Cambia "password" por tu co
 // --------------------
 
 interface Document {
+  id: string;
   name: string;
   date: string;
-  file: File;
+  file: File | null; // File can be null when loaded from localStorage
+}
+
+interface ActivityLog {
+    id: string;
+    date: string;
+    description: string;
 }
 
 const initialGalleryItems: GalleryItem[] = [
@@ -84,11 +91,14 @@ export default function MiCuentaPage() {
     const { profile, setProfile, isInitialized } = useContext(ProfileContext);
     const [localProfile, setLocalProfile] = useState<Profile>(profile);
     const [documents, setDocuments] = useState<Document[]>([]);
+    const [docToEdit, setDocToEdit] = useState<Document | null>(null);
     const [docToDelete, setDocToDelete] = useState<Document | null>(null);
 
     const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
     const [itemToEdit, setItemToEdit] = useState<GalleryItem | null>(null);
     const [itemToDelete, setItemToDelete] = useState<GalleryItem | null>(null);
+    
+    const [activityLog, setActivityLog] = useState<ActivityLog[]>([]);
 
     // State for login form
     const [username, setUsername] = useState('');
@@ -102,7 +112,7 @@ export default function MiCuentaPage() {
             
             const storedDocs = localStorage.getItem("userDocuments");
             if (storedDocs) {
-                const parsedDocs = JSON.parse(storedDocs).map((d: any) => ({ name: d.name, date: d.date, file: null }));
+                const parsedDocs = JSON.parse(storedDocs).map((d: any) => ({ ...d, file: null }));
                 setDocuments(parsedDocs);
             }
 
@@ -113,12 +123,28 @@ export default function MiCuentaPage() {
                 setGalleryItems(initialGalleryItems);
                 localStorage.setItem("galleryItems", JSON.stringify(initialGalleryItems));
             }
+            
+            const storedLog = localStorage.getItem("activityLog");
+            if(storedLog) {
+                setActivityLog(JSON.parse(storedLog));
+            }
         }
     }, [profile, isInitialized]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const docUploadRef = useRef<HTMLInputElement>(null);
     const galleryUploadRef = useRef<HTMLInputElement>(null);
+
+    const logActivity = (description: string) => {
+        const newActivity: ActivityLog = {
+            id: `activity-${Date.now()}`,
+            date: new Date().toLocaleString('es-ES'),
+            description: description,
+        };
+        const updatedLog = [newActivity, ...activityLog];
+        setActivityLog(updatedLog);
+        localStorage.setItem("activityLog", JSON.stringify(updatedLog));
+    }
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -202,25 +228,42 @@ export default function MiCuentaPage() {
         const files = event.target.files;
         if (files) {
             const newDocs = Array.from(files).map(file => ({
+                id: `doc-${Date.now()}-${Math.random()}`,
                 name: file.name,
                 date: new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }),
                 file: file
             }));
             const updatedDocs = [...documents, ...newDocs];
             setDocuments(updatedDocs);
-            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({name: d.name, date: d.date}))));
+            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({id: d.id, name: d.name, date: d.date}))));
+            newDocs.forEach(d => logActivity(`Documento subido: "${d.name}"`));
             toast({
                 title: `${newDocs.length} archivo(s) subido(s)`,
                 description: "Los documentos están listos en la lista.",
             });
         }
     };
+
+    const handleEditDoc = () => {
+        if (docToEdit) {
+            const updatedDocs = documents.map(doc => doc.id === docToEdit.id ? docToEdit : doc);
+            setDocuments(updatedDocs);
+            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({id: d.id, name: d.name, date: d.date}))));
+            logActivity(`Documento editado: "${docToEdit.name}"`);
+            toast({
+                title: "Documento Actualizado",
+                description: "El nombre del documento ha sido guardado.",
+            });
+            setDocToEdit(null);
+        }
+    };
     
     const handleDeleteDoc = () => {
         if (docToDelete) {
-            const updatedDocs = documents.filter(doc => doc.name !== docToDelete.name);
+            const updatedDocs = documents.filter(doc => doc.id !== docToDelete.id);
             setDocuments(updatedDocs);
-            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({name: d.name, date: d.date}))));
+            localStorage.setItem("userDocuments", JSON.stringify(updatedDocs.map(d => ({id: d.id, name: d.name, date: d.date}))));
+            logActivity(`Documento eliminado: "${docToDelete.name}"`);
             toast({
                 title: "Documento Eliminado",
                 description: `El archivo "${docToDelete.name}" ha sido eliminado.`,
@@ -229,6 +272,26 @@ export default function MiCuentaPage() {
             setDocToDelete(null);
         }
     };
+    
+    const handleDownloadDoc = (doc: Document) => {
+        if (doc.file) {
+            const url = URL.createObjectURL(doc.file);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = doc.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } else {
+            toast({
+                title: "Archivo no disponible",
+                description: "Este archivo fue cargado en una sesión anterior y no se puede descargar directamente. Por favor, súbalo de nuevo si necesita el archivo original.",
+                variant: "destructive",
+            });
+        }
+    };
+
 
     const handleGalleryUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -497,18 +560,40 @@ export default function MiCuentaPage() {
                         </Button>
                     </div>
 
-                    <div>
-                        <h3 className="text-lg font-semibold text-primary mb-4">Mis Documentos Subidos</h3>
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-primary">Mis Documentos Subidos</h3>
                         {documents.length > 0 ? (
                             <ul className="space-y-3">
-                                {documents.map((doc, index) => (
-                                <li key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
+                                {documents.map((doc) => (
+                                <li key={doc.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-secondary/50">
                                     <div>
                                         <p className="font-medium">{doc.name}</p>
                                         <p className="text-sm text-muted-foreground">Subido: {doc.date}</p>
                                     </div>
                                     <div className="flex items-center">
-                                        <Button variant="ghost" size="icon" disabled><Edit className="h-4 w-4"/></Button>
+                                        <Button variant="ghost" size="icon" onClick={() => handleDownloadDoc(doc)}><Download className="h-4 w-4"/></Button>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="ghost" size="icon" onClick={() => setDocToEdit({...doc})}><Edit className="h-4 w-4"/></Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Editar Nombre del Documento</DialogTitle>
+                                                </DialogHeader>
+                                                {docToEdit && (
+                                                    <div className="space-y-4 py-4">
+                                                        <div className="space-y-2">
+                                                            <Label htmlFor="edit-doc-name">Nombre del Documento</Label>
+                                                            <Input id="edit-doc-name" value={docToEdit.name} onChange={(e) => setDocToEdit({...docToEdit, name: e.target.value})} />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <DialogFooter>
+                                                    <DialogClose asChild><Button variant="ghost">Cancelar</Button></DialogClose>
+                                                    <Button onClick={handleEditDoc}>Guardar Cambios</Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
                                         <Button variant="ghost" size="icon" className="text-destructive" onClick={() => setDocToDelete(doc)}><Trash2 className="h-4 w-4"/></Button>
                                     </div>
                                 </li>
@@ -516,6 +601,21 @@ export default function MiCuentaPage() {
                             </ul>
                         ) : (
                             <p className="text-center text-muted-foreground p-6">No hay documentos subidos.</p>
+                        )}
+                    </div>
+                     <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-primary">Actividad Reciente de Documentos</h3>
+                        {activityLog.length > 0 ? (
+                             <ul className="space-y-3 max-h-60 overflow-y-auto border rounded-lg p-3">
+                                {activityLog.map((log) => (
+                                    <li key={log.id} className="text-sm text-muted-foreground">
+                                        <span className="font-mono text-xs mr-2">[{log.date}]</span>
+                                        {log.description}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-center text-muted-foreground p-6">No hay actividad registrada.</p>
                         )}
                     </div>
                 </CardContent>
@@ -625,3 +725,5 @@ export default function MiCuentaPage() {
     </div>
   );
 }
+
+    
