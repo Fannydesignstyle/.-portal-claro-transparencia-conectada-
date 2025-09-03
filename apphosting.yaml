@@ -1,6 +1,14 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
+# Specifies the build and start commands for the backend.
+# App Hosting will install dependencies from your package-lock.json and
+# run the build command. The start command will be used to start your
+# web server.
+spec:
+  build: npm-build
+  run: npm-start
+
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
