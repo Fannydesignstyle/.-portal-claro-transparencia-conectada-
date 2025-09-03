@@ -34,17 +34,36 @@ export default function PQRPage() {
 
   const onSubmit: SubmitHandler<PQRFormInputs> = async (data) => {
     setIsLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsLoading(false);
+    try {
+      const response = await fetch('/api/pqr', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    console.log(data); // In a real app, you would send this data to a server
+      const result = await response.json();
 
-    toast({
-      title: "Solicitud Recibida",
-      description: "Gracias por su PQR. Hemos registrado su solicitud y le contactaremos pronto.",
-    });
-    reset();
+      if (!response.ok) {
+        throw new Error(result.error || 'Ocurrió un error en el servidor.');
+      }
+
+      toast({
+        title: "Solicitud Recibida",
+        description: "Gracias por su PQR. Hemos registrado su solicitud y le contactaremos pronto.",
+      });
+      reset();
+    } catch (error) {
+      console.error("Error al enviar PQR:", error);
+      toast({
+        title: "Error al Enviar",
+        description: error instanceof Error ? error.message : "No se pudo enviar la solicitud. Por favor, intente de nuevo más tarde.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
