@@ -10,7 +10,11 @@
     "start": "next start -p ${PORT:=3000} -H ${HOSTNAME:=0.0.0.0}",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --coverage",
+    "validate": "npm run lint && npm run typecheck && npm run test",
+    "validate:ci": "npm run lint && npm run typecheck && npm run test:ci"
   },
   "dependencies": {
     "@genkit-ai/googleai": "^1.14.1",

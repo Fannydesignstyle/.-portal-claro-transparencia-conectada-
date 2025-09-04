@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react'; // Import Suspense
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import type { SearchResultItem } from '@/ai/schemas/search-schema';
 
-export default function SearchPage() {
+// Create a separate component for the actual search logic that uses useSearchParams
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
   const [results, setResults] = useState<SearchResultItem[]>([]);
@@ -83,5 +84,13 @@ export default function SearchPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Cargando resultados de búsqueda...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 }
