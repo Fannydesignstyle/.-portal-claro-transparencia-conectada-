@@ -28,6 +28,12 @@ const searchableData = [
     { title: "Formulario de PQR", url: "/pqr", description: "Registre sus peticiones, quejas o reclamos." },
 ];
 
+/**
+ * Genkit flow for searching platform content
+ * 
+ * This flow implements a simple search functionality that filters
+ * through predefined searchable content based on a query string.
+ */
 const searchFlow = ai.defineFlow(
   {
     name: 'searchFlow',
@@ -50,6 +56,22 @@ const searchFlow = ai.defineFlow(
   }
 );
 
+/**
+ * Searches the platform content based on a query
+ * 
+ * This function performs a search across predefined platform content
+ * and returns matching results. In a real application, this would
+ * query a database or search index.
+ * 
+ * @param input - The search query
+ * @returns Search results matching the query
+ * 
+ * @example
+ * ```typescript
+ * const results = await searchPlatform({ query: "transparencia" });
+ * console.log(results.results.length); // Number of matching items
+ * ```
+ */
 export async function searchPlatform(input: SearchInput): Promise<SearchOutput> {
   return searchFlow(input);
 }

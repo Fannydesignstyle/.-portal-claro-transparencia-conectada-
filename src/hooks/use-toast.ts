@@ -27,6 +27,10 @@ const actionTypes = {
 
 let count = 0
 
+/**
+ * Generates a unique ID for each toast
+ * @returns A unique string ID
+ */
 function genId() {
   count = (count + 1) % Number.MAX_SAFE_INTEGER
   return count.toString()
@@ -58,6 +62,10 @@ interface State {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>()
 
+/**
+ * Adds a toast to the removal queue
+ * @param toastId - The ID of the toast to be removed
+ */
 const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
     return
@@ -74,6 +82,12 @@ const addToRemoveQueue = (toastId: string) => {
   toastTimeouts.set(toastId, timeout)
 }
 
+/**
+ * Reducer function for managing toast state
+ * @param state - Current state of toasts
+ * @param action - Action to perform on the state
+ * @returns New state after applying the action
+ */
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
@@ -133,6 +147,10 @@ const listeners: Array<(state: State) => void> = []
 
 let memoryState: State = { toasts: [] }
 
+/**
+ * Dispatches an action to update the toast state
+ * @param action - The action to dispatch
+ */
 function dispatch(action: Action) {
   memoryState = reducer(memoryState, action)
   listeners.forEach((listener) => {
@@ -142,6 +160,11 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">
 
+/**
+ * Creates and displays a new toast notification
+ * @param props - Toast properties
+ * @returns Object with toast ID, dismiss function, and update function
+ */
 function toast({ ...props }: Toast) {
   const id = genId()
 
@@ -171,6 +194,10 @@ function toast({ ...props }: Toast) {
   }
 }
 
+/**
+ * React hook for managing toast notifications
+ * @returns Object containing toast state and management functions
+ */
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)
 

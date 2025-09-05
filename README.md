@@ -88,6 +88,19 @@ Aquí tienes algunas formas de colaborar:
 
 Al contribuir, por favor, asegúrate de seguir las guías de estilo y calidad del código del proyecto.
 
+### Documentación
+
+Este proyecto mantiene una documentación exhaustiva para facilitar el desarrollo y mantenimiento:
+
+- [CHANGELOG.md](CHANGELOG.md) - Historial de cambios del proyecto
+- [COMMIT_CONVENTION.md](COMMIT_CONVENTION.md) - Guía para mensajes de commit
+- [src/ai/README.md](src/ai/README.md) - Documentación del módulo de inteligencia artificial
+- [src/app/README.md](src/app/README.md) - Documentación del módulo de la aplicación
+- [src/components/README.md](src/components/README.md) - Documentación de los componentes UI
+- [src/context/README.md](src/context/README.md) - Documentación del contexto de la aplicación
+- [src/hooks/README.md](src/hooks/README.md) - Documentación de los hooks personalizados
+- [src/lib/README.md](src/lib/README.md) - Documentación de las utilidades
+
 ## ❓ Preguntas Frecuentes (FAQ)
 
 **P: ¿Cómo puedo desplegar esta aplicación?**

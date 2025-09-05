@@ -3,24 +3,45 @@
 
 import { createContext, useState, useEffect } from "react";
 
+/**
+ * Profile interface representing a user profile in the system
+ */
 export interface Profile {
+  /** Unique identifier for the profile */
   id: string;
+  /** Full name of the profile owner */
   name: string;
+  /** Job title or position */
   title: string;
+  /** URL to the profile avatar image */
   avatar: string;
+  /** Email address */
   email: string;
+  /** Phone number */
   phone: string;
+  /** AI hint for generating profile images */
   dataAiHint: string;
+  /** Department or organization */
   department: string;
+  /** Optional website URL */
   website?: string;
 }
 
+/**
+ * Profile context type definition
+ */
 interface ProfileContextType {
+  /** Current profile data */
   profile: Profile;
+  /** Function to update profile data */
   setProfile: (profile: Profile) => void;
+  /** Indicates if the profile has been initialized */
   isInitialized: boolean;
 }
 
+/**
+ * Initial profile data with default values
+ */
 const initialProfile: Profile = {
   id: "directora-estefania-perez",
   name: "Estefanía Pérez Vázquez",
@@ -32,12 +53,24 @@ const initialProfile: Profile = {
   department: "Dirección General"
 };
 
+/**
+ * React Context for managing user profile state across the application
+ * 
+ * This context provides a way to share profile data between components
+ * without having to pass props down manually at every level.
+ */
 export const ProfileContext = createContext<ProfileContextType>({
     profile: initialProfile,
     setProfile: () => {},
     isInitialized: false,
 });
 
+/**
+ * Profile Provider component that wraps the application and provides
+ * profile state management functionality
+ * 
+ * @param children - Child components that will have access to the profile context
+ */
 export const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
   const [profile, setProfile] = useState<Profile>(initialProfile);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -55,6 +88,10 @@ export const ProfileProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }, []);
 
+  /**
+   * Updates the profile state and persists it to localStorage
+   * @param newProfile - The new profile data to set
+   */
   const handleSetProfile = (newProfile: Profile) => {
     setProfile(newProfile);
     try {
